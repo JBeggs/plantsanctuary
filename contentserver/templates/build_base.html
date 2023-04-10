@@ -1,0 +1,229 @@
+{% load cms_tags menu_tags sekizai_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Plant Sanctuary</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="{{ MEDIA_URL }}img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{ MEDIA_URL }}lib/animate/animate.min.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ MEDIA_URL }}css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet">
+
+  <script src="https://cdn.tiny.cloud/1/9ojq3k306szd3q6lpbaed88ddejijkt4wrh7q7emtk3byx6t/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+  <style>
+
+        .sidebar.right {
+            width: 150px;;
+        }
+
+
+        .sidebar.right {
+            float:left;
+            z-index:100;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 150px;
+            background: #448AFF;
+        }
+
+        .sidebars > .sidebar {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.64);
+            position: fixed;
+            color: white;
+            padding: 30px;
+            font-size: 2em;
+            text-align: center;
+        }
+
+  </style>
+
+</head>
+
+<body>
+  <form id="save" method="POST">
+      {% csrf_token %}
+      <input type="hidden" id="site">
+      <input type="hidden" id="section">
+      <input type="hidden" id="element">
+
+
+
+
+    <div class="container">
+
+          <row><header id="navigation" class="fixed-top "></header></row>
+          <section id="hero" class="d-flex align-items-center"></section>
+          <main id="main"></main>
+          <footer id="footer"></footer>
+          <textarea name="content" id="content"></textarea>
+          <div>
+              <a class="btn btn-success" onclick="update_build()" href="#1">Update</a><br />
+              <a href="#" class="btn btn-success" data-action="open" data-side="right"><span>Open Tools</span></a>
+  <a href="#" class="btn btn-success" data-action="close" data-side="right"><span>close Tools</span></a>
+        </div>
+    </div>
+
+
+  <div class="sidebars">
+      <div class="sidebar right">
+        <div>
+			<a onclick="update_build()" href="#1">Update</a><br />
+      </div>
+      </div>
+  </div>
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <!-- Vendor JS Files -->
+  </form>
+
+
+
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ MEDIA_URL }}lib/wow/wow.min.js"></script>
+  <script src="{{ MEDIA_URL }}lib/easing/easing.min.js"></script>
+  <script src="{{ MEDIA_URL }}lib/waypoints/waypoints.min.js"></script>
+  <script src="{{ MEDIA_URL }}lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="{{ MEDIA_URL }}lib/counterup/counterup.min.js"></script>
+  <script src="{{ MEDIA_URL }}lib/parallax/parallax.min.js"></script>
+  <script src="{{ MEDIA_URL }}lib/isotope/isotope.pkgd.min.js"></script>
+  <script src="{{ MEDIA_URL }}lib/lightbox/js/lightbox.min.js"></script>
+  <script src="{{ MEDIA_URL }}js/main.js"></script>
+  <script src="{{ MEDIA_URL }}js/jquery.sidebar.min.js"></script>
+    <script>
+
+      function update_build(){
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        section = urlParams.get('section');
+        $('#'+section).html(window.parent.tinymce.get('content').getContent());
+        $('#save').submit();
+      }
+
+      $( document ).ready(function() {
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+
+        site    = urlParams.get('site');
+        section = urlParams.get('section');
+        element = urlParams.get('element');
+
+        $('#site').val(site);
+        $('#section').val(section);
+        $('#element').val(element);
+
+        $(".sidebar.right").sidebar({
+          speed: 200,
+          side: "right",
+          isClosed: false,
+          close: true
+        });
+        // All sides
+        var sides = ["right"];
+
+        // Initialize sidebars
+        for (var i = 0; i < sides.length; ++i) {
+            var cSide = sides[i];
+            $(".sidebar." + cSide).sidebar({side: cSide});
+        }
+
+        // Click handlers
+        $(".btn[data-action]").on("click", function () {
+            var $this = $(this);
+            var action = $this.attr("data-action");
+            var side = $this.attr("data-side");
+            $(".sidebar." + side).trigger("sidebar:" + action);
+            return false;
+        });
+
+        $.ajax({url: "/build_html?" + urlParams.toString(), success: function(result){
+
+          if(section == 'navigation'){
+            $('#footer').remove();
+            $('#main').remove();
+
+
+            $('#navigation').html(result).ready(function () {
+                $(":empty").html('&nbsp;')
+                $('#content').html($('#navigation').html());
+            });
+          } else if(section == 'hero'){
+            $('#header').remove();
+            $('#footer').remove();
+            $('#main').remove();
+
+            $('#hero').html(result).ready(function () {
+                $(":empty").html('&nbsp;')
+                $('#content').html($('#hero').html());
+            });
+          } else if(section == 'main'){
+            $('#header').remove();
+            $('#hero').remove();
+            $('#footer').remove();
+            $('#main').html(result).ready(function () {
+                $(":empty").html('&nbsp;')
+                $('#content').html($('#main').html());
+                $('#main img').on("error", function(){
+                    $(this).unbind("error").attr("src", "../media/img/broken.jpg");
+                    $(this).on("click", function(){
+                        $("#myModal").modal("toggle");
+                     });
+                });
+            });;
+
+          } else if(section == 'footer'){
+            $('#header').remove();
+            $('#hero').remove();
+            $('#main').remove();
+            $('#footer').html(result).ready(function () {
+                $(":empty").html('&nbsp;')
+                $('#content').html($('#footer').html());
+            });;
+          }
+
+        }});
+
+
+
+
+      });
+
+    </script>
+<script>
+    tinymce.init({
+      selector: 'textarea',
+      plugins: "code",
+      toolbar: "code",
+      nonbreaking_force_tab: true,
+      lists_indent_on_tab : true,
+    });
+  </script>
+</body>
+
+</html>
