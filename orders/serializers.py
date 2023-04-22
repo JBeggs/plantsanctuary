@@ -2,7 +2,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 
-from orders.models import Order, OrderItem
+from .models import Order, OrderItem
 
 
 class OrderItemSerializer(serializers.ModelSerializer):

@@ -10,9 +10,9 @@ from rest_framework.generics import (
 from rest_framework import permissions
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from users.models import Address, PhoneNumber, Profile
-from users.permissions import IsUserAddressOwner, IsUserProfileOwner
-from users.serializers import (
+from .models import Address, PhoneNumber, Profile
+from .permissions import IsUserAddressOwner, IsUserProfileOwner
+from .serializers import (
     AddressReadOnlySerializer,
     PhoneNumberSerializer,
     ProfileSerializer,

@@ -7,18 +7,18 @@ from rest_framework import status
 from rest_framework.response import Response
 import stripe
 
-from payment.models import Payment
-from payment.permissions import (
+from .models import Payment
+from .permissions import (
     DoesOrderHaveAddress,
     IsOrderPendingWhenCheckout,
     IsPaymentByUser,
     IsPaymentForOrderNotCompleted,
     IsPaymentPending
 )
-from payment.serializers import CheckoutSerializer, PaymentSerializer
+from .serializers import CheckoutSerializer, PaymentSerializer
 from orders.models import Order
 from orders.permissions import IsOrderByBuyerOrAdmin
-from payment.tasks import send_payment_success_email_task
+from .tasks import send_payment_success_email_task
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY

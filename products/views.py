@@ -1,8 +1,8 @@
 from rest_framework import permissions, viewsets
 
-from products.models import Product, ProductCategory
-from products.permissions import IsSellerOrAdmin
-from products.serializers import ProductCategoryReadSerializer, ProductReadSerializer, ProductWriteSerializer
+from .models import Product, ProductCategory
+from .permissions import IsSellerOrAdmin
+from .serializers import ProductCategoryReadSerializer, ProductReadSerializer, ProductWriteSerializer
 
 
 class ProductCategoryViewSet(viewsets.ReadOnlyModelViewSet):
