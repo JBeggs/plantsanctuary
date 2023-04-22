@@ -10,18 +10,28 @@ admin.autodiscover()
 
 urlpatterns = [
     path("sitemap.xml", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
+    path('api/user/', include('users.urls', namespace='users')),
+    path('api/products/', include('products.urls', namespace='products')),
+    path('api/user/orders/',
+         include('orders.urls', namespace='orders')),
+    path('api/user/payments/',
+         include('payment.urls', namespace='payment')),
+    path('api/', include('api.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 ]
 
+# This is only needed when using runserver.
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += i18n_patterns(
-    path('', include('api.urls')),
+
+    path('accounts/', include('allauth.urls')),
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
     path("", include("cms.urls")),
 
 )
 
-# This is only needed when using runserver.
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

@@ -62,9 +62,9 @@
 
 
     site      = '{{ request.current_page.get_slug }}';
-    build_url = '/build?site=' + site;
+    build_url = '/api/build?site=' + site;
     edit_button = '<div class="container-fluid copyright py-4"><div class="container"><div class="row"><div class="col-md-12 text-center text-md-start mb-3 mb-md-0"><a href="build_url" class="btn-get-started scrollto">Edit</a></div></div></div></div>'
-    $.ajax({url: "/site_server?section=navigation&element=navigation&site=" + site, success: function(result){
+    $.ajax({url: "/api/site_server?section=navigation&element=navigation&site=" + site, success: function(result){
       button = edit_button.replace('build_url', build_url +'&section=navigation&element=navigation')
       $("#navigation").append(result);
 
@@ -76,7 +76,7 @@
       {% endif %}
     }});
 
-    $.ajax({url: "/site_server?section=hero&element=hero&site=" + site, success: function(result){
+    $.ajax({url: "/api/site_server?section=hero&element=hero&site=" + site, success: function(result){
       button = edit_button.replace('build_url', build_url +'&section=hero&element=hero')
       $("#hero").append(result);
       {% if user.is_authenticated %}
@@ -89,7 +89,7 @@
 
     for (let i = 0; i < about_elements.length; i++) {
 
-        $.ajax({url: "/site_server?section=main&element="+ about_elements[i] +"&site=" + site, success: function(result){
+        $.ajax({url: "/api/site_server?section=main&element="+ about_elements[i] +"&site=" + site, success: function(result){
 
           {% if user.is_authenticated %}
             button = edit_button.replace('build_url', build_url +'&section=main&element='+about_elements[i])
@@ -106,7 +106,7 @@
     service_elements = ['features', 'portfolio',  'projects', 'services']
     for (let i = 0; i < service_elements.length; i++) {
 
-        $.ajax({url: "/site_server?section=main&element="+ service_elements[i] +"&site=" + site, success: function(result){
+        $.ajax({url: "/api/site_server?section=main&element="+ service_elements[i] +"&site=" + site, success: function(result){
 
           {% if user.is_authenticated %}
             button = edit_button.replace('build_url', build_url +'&section=main&element='+service_elements[i])
@@ -123,7 +123,7 @@
 
     for (let i = 0; i < contact_elements.length; i++) {
 
-        $.ajax({url: "/site_server?section=main&element="+ contact_elements[i] +"&site=" + site, success: function(result){
+        $.ajax({url: "/api/site_server?section=main&element="+ contact_elements[i] +"&site=" + site, success: function(result){
 
           {% if user.is_authenticated %}
             button = edit_button.replace('build_url', build_url +'&section=main&element='+contact_elements[i])
@@ -139,7 +139,7 @@
     }
 
 
-    $.ajax({url: "/site_server?section=footer&element=footer&site=" + site, success: function(result){
+    $.ajax({url: "/api/site_server?section=footer&element=footer&site=" + site, success: function(result){
       button = edit_button.replace('build_url', build_url +'&section=footer&element=footer')
       $("#footer").append(result);
       {% if user.is_authenticated %}
