@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from os.path import exists
 from django.conf import settings
-from plantsanctuary.api.models import *
+from products.models import *
 
 
 def site_server(request, *args, **kwargs):
@@ -13,6 +13,7 @@ def site_server(request, *args, **kwargs):
     site    = request.GET.get('site')
     section = request.GET.get('section')
     element = request.GET.get('element')
+    product = request.GET.get('product', '')
 
     if section == 'main' and not element:
         default_layout = 'includes/main.html'
@@ -20,6 +21,11 @@ def site_server(request, *args, **kwargs):
         default_layout = 'layouts/main/{}.html'.format(element)
     else:
         default_layout = 'layouts/{}/{}.html'.format(section, element)
+
+    if product != '':
+        products = Product.objects.filter(id=product)
+    else:
+        products = Product.objects.filter(quantity__gt=0)
 
     site_layout = 'layouts/{}/{}-{}.html'.format(section, site, element)
 
@@ -30,7 +36,7 @@ def site_server(request, *args, **kwargs):
     except:
         site_template = default_layout
 
-    return render(request, site_template, {'posts': 'posts', 'site': site})
+    return render(request, site_template, {'products': products, 'site': site})
 
 
 @login_required

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
-from api.views import build, build_html, site_server
+from .views import build, build_html, site_server
 
 admin.autodiscover()
 
