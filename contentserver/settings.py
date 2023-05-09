@@ -225,7 +225,17 @@ CMS_LANGUAGES = {
 
 CMS_TEMPLATES = (
     ## Customize this
-    ('themed.html', 'Themed'),
+    ('comingsoon.html', 'Coming Soon'),
+    ('ps_home.html', 'Home'),
+    ('ps_about.html', 'About'),
+    ('ps_shop.html', 'Shop'),
+    ('ps_shop_details.html', 'Shop Details'),
+    ('ps_portfolio.html', 'Portfolio'),
+    ('ps_single_portfolio.html', 'Single Portfolio'),
+    ('ps_contact.html', 'Contact'),
+    ('ps_checkout.html', 'Checkout'),
+    ('ps_blog.html', 'Blog'),
+    ('ps_single_post.html', 'Blog'),
 )
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
