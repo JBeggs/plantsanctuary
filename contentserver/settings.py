@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'taggit_autosuggest',
     'meta',
     'sortedm2m',
+    'django_extensions',
     'djangocms_blog',
     'djangocms_bootstrap4',
     'djangocms_bootstrap4.contrib.bootstrap4_alerts',

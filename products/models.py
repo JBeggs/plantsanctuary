@@ -43,6 +43,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to=product_image_path, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.IntegerField(default=1)
+    barcode = models.CharField(max_length=200, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
