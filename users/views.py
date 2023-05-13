@@ -1,5 +1,9 @@
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext as _
 from django.contrib.auth import get_user_model
+from django.views.generic import FormView, UpdateView, TemplateView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import (
@@ -21,7 +25,7 @@ from .serializers import (
     UserSerializer,
     VerifyPhoneNumberSerialzier
 )
-
+from .form import UserForm, PhoneNumberForm, ProfileForm, AddressForm
 
 User = get_user_model()
 
@@ -158,3 +162,178 @@ class AddressViewSet(ReadOnlyModelViewSet):
         res = super().get_queryset()
         user = self.request.user
         return res.filter(user=user)
+
+#
+# class UserView(FormView):
+#
+#     template_name = 'user.html'
+#
+#     def get(self, request, *args, **kwargs):
+#         user_form = UserForm()
+#         user_form.prefix = 'user_form'
+#         phonenumber_form = PhoneNumberForm()
+#         phonenumber_form.prefix = 'phonenumber_form'
+#         profile_form = ProfileForm()
+#         profile_form.prefix = 'profile_form'
+#         # Use RequestContext instead of render_to_response from 3.0
+#         return self.render_to_response(self.get_context_data({
+#             'user_form': user_form,
+#             'phonenumber_form': phonenumber_form,
+#             'profile_form': profile_form,
+#         }))
+#
+#     def get_context_data(self, data, **kwargs):
+#
+#         kwargs['user_form'] = data['user_form']
+#         kwargs['phonenumber_form'] = data['phonenumber_form']
+#         kwargs['profile_form'] = data['profile_form']
+#
+#         return super().get_context_data(**kwargs)
+#
+#
+#     def post(self, request, *args, **kwargs):
+#
+#         user_form = UserForm(self.request.POST, prefix='user_form')
+#         phonenumber_form = PhoneNumberForm(self.request.POST, prefix='phonenumber_form ')
+#         profile_form = ProfileForm(self.request.POST, prefix='profile_form ')
+#
+#         if user_form.is_valid() and phonenumber_form.is_valid() and profile_form.is_valid():
+#             ### do something
+#             return HttpResponseRedirect('')
+#         else:
+#             return self.form_invalid(user_form, phonenumber_form, profile_form, **kwargs)
+#
+#     def form_invalid(self, user_form, phonenumber_form, profile_form, **kwargs):
+#         user_form.prefix = 'user_form'
+#         phonenumber_form.prefix = 'phonenumber_form'
+#         profile_form.prefix = 'profile_form'
+#
+#         return self.render_to_response(self.get_context_data({
+#             'user_form': user_form,
+#             'phonenumber_form': phonenumber_form,
+#             'profile_form': profile_form,
+#         }))
+
+
+class UserView(TemplateView):
+
+    user_form = UserForm
+    user_form.prefix = 'user_form'
+    phonenumber_form = PhoneNumberForm
+    phonenumber_form.prefix = 'phonenumber_form'
+    profile_form = ProfileForm
+    profile_form.prefix = 'profile_form'
+    address_form = AddressForm
+    address_form.prefix = 'address_form'
+    template_name = 'user.html'
+
+    def post(self, request, *args, **kwargs):
+
+        post_data        = request.POST or None
+
+        user_form        = self.user_form(post_data, instance=request.user)
+        phonenumber_form = self.phonenumber_form(post_data, prefix='phonenumber_form', instance=PhoneNumber.objects.filter(user=request.user).first())
+        profile_form     = self.profile_form(post_data, prefix='profile_form', instance=Profile.objects.filter(user=request.user).first())
+        address_form     = self.address_form(post_data, prefix='address_form')
+
+        context = self.get_context_data(
+            user_form=user_form,
+            phonenumber_form=phonenumber_form,
+            profile_form=profile_form,
+            address_form=address_form
+        )
+
+        user_valid = user_form.is_valid() and any(key.startswith(user_form.prefix) for key in request.POST)
+        phonenumber_valid = phonenumber_form.is_valid() and any(key.startswith(phonenumber_form.prefix) for key in request.POST)
+        profile_valid = profile_form.is_valid() and any(key.startswith(profile_form.prefix) for key in request.POST)
+        address_valid = address_form.is_valid() and any(key.startswith(address_form.prefix) for key in request.POST)
+
+        if user_valid:
+            self.user_save(user_form)
+        else:
+            if user_form.errors.__len__:
+                user_form.errors['first_name'] = {}
+                user_form.errors['last_name'] = {}
+
+        if phonenumber_valid:
+            self.phonenumber_save(phonenumber_form)
+        else:
+            if phonenumber_form.errors.__len__:
+                phonenumber_form.errors['phone_number'] = {}
+
+        if profile_valid:
+            self.profile_save(profile_form)
+        else:
+            if profile_form.errors.__len__:
+                profile_form.errors['avatar'] = {}
+                profile_form.errors['bio'] = {}
+
+        if address_valid:
+            self.address_save(address_form)
+        else:
+            if address_form.errors.__len__:
+                for key, items in address_form.errors.items():
+                    address_form.errors[key] = {}
+
+        if request.POST != {}:
+            return redirect("/user/")
+
+        context['addresses'] = Address.objects.filter(user=request.user)
+
+        return self.render_to_response(context)
+
+    def user_save(self, form):
+
+        user = User.objects.get(id=self.request.user.id)
+
+        for key in form.changed_data:
+            exec('user.{} = form.cleaned_data["{}"]'.format(key.replace("'", ''), key))
+
+        user.save()
+
+        messages.success(self.request, "{} saved successfully".format(user))
+        return user
+
+    def phonenumber_save(self, form):
+
+        phonenumber = PhoneNumber.objects.filter(user=self.request.user).first()
+        if phonenumber:
+            for key in form.changed_data:
+                exec('phonenumber.{} = form.cleaned_data["{}"]'.format(key.replace("'", ''), key))
+            phonenumber.save()
+            messages.success(self.request, "{} saved successfully".format(phonenumber))
+        else:
+            phonenumber = PhoneNumber()
+            phonenumber.user = self.request.user
+            for key in form.changed_data:
+                exec('phonenumber.{} = form.cleaned_data["{}"]'.format(key.replace("'", ''), key))
+            phonenumber.save()
+
+        return phonenumber
+
+    def profile_save(self, form):
+
+        profile = form.save(commit=False)
+        if 'profile_form-avatar' in self.request.FILES:
+            profile.avatar = self.request.FILES['profile_form-avatar']
+        profile.user = self.request.user
+        profile.save()
+        messages.success(self.request, "{} saved successfully".format(profile))
+
+        return profile
+
+    def address_save(self, form):
+
+        address = form.save(commit=False)
+        address.user = self.request.user
+        address.save()
+        messages.success(self.request, "{} saved successfully".format(address))
+        return address
+
+    def get(self, request, *args, **kwargs):
+
+        if request.user.is_anonymous:
+            messages.success(self.request, "Please Login")
+            return redirect("/")
+
+        return self.post(request, *args, **kwargs)

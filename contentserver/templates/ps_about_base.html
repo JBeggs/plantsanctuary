@@ -1,3 +1,4 @@
+{% load cms_tags menu_tags sekizai_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <!-- Title -->
-    <title>{{ page.title }}</title>
+    <title>{% block title %}{% page_attribute page_title %}{% endblock %}</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ MEDIA_URL }}img/favicon.ico">
 
@@ -18,8 +19,26 @@
 </head>
 
 <body>
+    {% block content %}
+    {% endblock content %}
 
-    {% include 'layouts/about.html' %}
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change the text and save to update the content</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+<!--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>-->
+<!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery-2.2.4 js -->
     <script src="{{ MEDIA_URL }}js/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->

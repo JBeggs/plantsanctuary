@@ -5,6 +5,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from os.path import exists
 from django.conf import settings
+
+from api.models import Content
 from products.models import *
 
 
@@ -89,3 +91,33 @@ def build_html(request):
         site_template = default_layout
 
     return render(request, site_template, {'posts': 'posts', 'site': site})
+
+
+@login_required
+def update(request):
+
+    if request.POST:
+        for key, in_memory_file in request.FILES.items():
+            partial_key = 'image_content_editor_'
+            name = key.replace(partial_key, '')
+            content = Content.objects.filter(name=name).first()
+            content.image = in_memory_file
+            content.save()
+
+
+    else:
+        partial_key = 'editor_'
+
+        matching_items = {
+            key: value for key, value in request.GET.items()
+            if partial_key.lower() in key.lower()
+        }
+
+        print(matching_items)
+        for element, content in matching_items.items():
+            name = element.replace(partial_key, "")
+            element_content = Content.objects.filter(name=name).first()
+            element_content.desc = content
+            element_content.save()
+
+    return redirect(request.META.get('HTTP_REFERER'))

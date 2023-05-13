@@ -30,7 +30,13 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 
 
-# Application definition
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 INSTALLED_APPS = [
 
@@ -43,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
     'django.contrib.messages',
+    'django_countries',
     'phonenumber_field',
     'users',
     #'PhoneNumber',
@@ -61,6 +68,13 @@ INSTALLED_APPS = [
     'djangocms_text_ckeditor',
     'filer',
     'easy_thumbnails',
+    'aldryn_apphooks_config',
+    'parler',
+    'taggit',
+    'taggit_autosuggest',
+    'meta',
+    'sortedm2m',
+    'djangocms_blog',
     'djangocms_bootstrap4',
     'djangocms_bootstrap4.contrib.bootstrap4_alerts',
     'djangocms_bootstrap4.contrib.bootstrap4_badge',
@@ -236,6 +250,8 @@ CMS_TEMPLATES = (
     ('ps_checkout.html', 'Checkout'),
     ('ps_blog.html', 'Blog'),
     ('ps_single_post.html', 'Blog'),
+    ('services.html', 'Services'),
+    ('products.html', 'Products'),
 )
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
@@ -247,11 +263,13 @@ CMS_PLACEHOLDER_CONF = {}
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGIN_URL = '/en/account/login/'
+#LOGIN AND
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 

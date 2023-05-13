@@ -1,0 +1,28 @@
+{% extends "products_base.html" %}
+{% load cms_tags %}
+
+{% block title %}title{% endblock title %}
+
+{% block content %}
+
+        <!-- Navigation-->
+        {% include 'layouts/navigation/navigation.html' %}
+
+        {% for product in products %}
+                {{ product.name }}
+
+                {{ product.seller.name }}<br />
+                {{ product.category }}<br />
+                {{ product.name }}<br />
+                {{ product.desc }}<br />
+                <img style='height:150px;' src="{{ MEDIA_URL }}{{ product.image }}" /><br />
+                {{ product.price }}<br />
+                {{ product.quantity }}<br />
+                <form action="/orders/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" id="product_pk" name="product_pk" value="{{ product.id }}" />
+                    <input type="submit" value="Add To Cart">
+                </form>
+        {% endfor %}
+
+{% endblock content %}

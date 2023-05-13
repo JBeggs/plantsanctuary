@@ -1,88 +1,49 @@
-<div class="container-fluid p-0 wow fadeIn" data-wow-delay="0.1s">
-    <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="w-100" src="{{ MEDIA_URL }}img/carousel-1.jpg" alt="Image">
-                <div class="carousel-caption">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <h1 class="display-1 text-white mb-5 animated slideInDown">Make Your Home Like Garden</h1>
-                                <a href="" class="btn btn-primary py-sm-3 px-sm-4">Explore More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img class="w-100" src="{{ MEDIA_URL }}img/carousel-2.jpg" alt="Image">
-                <div class="carousel-caption">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-7">
-                                <h1 class="display-1 text-white mb-5 animated slideInDown">Create Your Own Small Garden At Home</h1>
-                                <a href="" class="btn btn-primary py-sm-3 px-sm-4">Explore More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#header-carousel"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</div>
+{% load site_content %}
 
-<div class="container-fluid top-feature py-5 pt-lg-0">
-    <div class="container py-5 pt-lg-0">
-        <div class="row gx-0">
-            <div class="col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 160px;">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-                            <i class="fa fa-times text-primary"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h4>No Hidden Cost</h4>
-                            <span>Clita erat ipsum lorem sit sed stet duo justo</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 160px;">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-                            <i class="fa fa-users text-primary"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h4>Dedicated Team</h4>
-                            <span>Clita erat ipsum lorem sit sed stet duo justo</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 160px;">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-                            <i class="fa fa-phone text-primary"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h4>24/7 Available</h4>
-                            <span>Clita erat ipsum lorem sit sed stet duo justo</span>
+<section class="hero-area">
+    <div class="hero-post-slides owl-carousel">
+
+        <!-- Single Hero Post -->
+        <div class="single-hero-post bg-overlay">
+            <!-- Post Image -->
+            <div class="slide-img bg-img" style="background-image: url({{ MEDIA_URL }}img/bg-img/1.jpg);"></div>
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <!-- Post Content -->
+                        <div class="hero-slides-content text-center">
+                            <h2>{% get_edit_content request 'home_header_1' 'desc' 'Welcome to plant Sanctuary' %}</h2>
+                            <p>{% get_edit_content request 'home_header_description_1' 'desc' 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque ante nec ipsum iaculis, ac iaculis ipsum porttitor. Vivamus cursus nisl lectus, id mattis nisl lobortis eu. Duis diam augue, dapibus ut dolor at, mattis maximus dolor.' %}</p>
+                            <div class="welcome-btn-group">
+                                <a href="#" class="btn alazea-btn mr-30">GET STARTED</a>
+                                <a href="#" class="btn alazea-btn active">CONTACT US</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Single Hero Post -->
+        <div class="single-hero-post bg-overlay">
+            <!-- Post Image -->
+            <div class="slide-img bg-img" style="background-image: url({{ MEDIA_URL }}img/bg-img/2.jpg);"></div>
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <!-- Post Content -->
+                        <div class="hero-slides-content text-center">
+                            <h2>{% get_edit_content request 'home_header_2' 'desc' 'Plants exist in the weather and light rays that surround them' %}</h2>
+                            <p>{% get_edit_content request 'home_header_description_2' 'desc' 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque ante nec ipsum iaculis, ac iaculis ipsum porttitor. Vivamus cursus nisl lectus, id mattis nisl lobortis eu. Duis diam augue, dapibus ut dolor at, mattis maximus dolor.' %}</p>
+                            <div class="welcome-btn-group">
+                                <a href="#" class="btn alazea-btn mr-30">GET STARTED</a>
+                                <a href="#" class="btn alazea-btn active">CONTACT US</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
+</section>

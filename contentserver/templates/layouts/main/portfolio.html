@@ -1,111 +1,139 @@
-<section id="portfolio" class="portfolio">
-  <div class="container" data-aos="fade-up">
-
-    <div class="section-title">
-      <h2>Portfolio</h2>
-      <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+{% load site_content %}
+<section class="alazea-portfolio-area section-padding-100-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Section Heading -->
+                <div class="section-heading text-center">
+                    <h2>{% get_edit_content request 'portfolio_header' 'desc' 'OUR PORTFOLIO' %}</h2>
+                    <p>{% get_edit_content request 'portfolio_description' 'desc' 'We devote all of our experience and efforts for creation' %}</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <ul id="portfolio-flters" class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
-      <li data-filter="*" class="filter-active">All</li>
-      <li data-filter=".filter-app">App</li>
-      <li data-filter=".filter-card">Card</li>
-      <li data-filter=".filter-web">Web</li>
-    </ul>
-
-    <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
-      <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-        <div class="portfolio-img"><img src="{{ MEDIA_URL }}assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <h4>App 1</h4>
-          <p>App</p>
-          <a href="{{ MEDIA_URL }}assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-          <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="alazea-portfolio-filter">
+                    <div class="portfolio-filter">
+                        <button class="btn active" data-filter="*">{% get_edit_content_button request 'portfolio_nav_description_1' 'desc' 'All' %}</button>
+                        <button class="btn" data-filter=".design">{% get_edit_content_button request 'portfolio_nav_description_2' 'desc' 'Coffee Design' %}</button>
+                        <button class="btn" data-filter=".garden">{% get_edit_content_button request 'portfolio_nav_description_3' 'desc' 'Garden' %}</button>
+                        <button class="btn" data-filter=".home-design">{% get_edit_content_button request 'portfolio_nav_description_4' 'desc' 'Home Design' %}</button>
+                        <button class="btn" data-filter=".office-design">{% get_edit_content_button request 'portfolio_nav_description_5' 'desc' 'Office Design' %}</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-        <div class="portfolio-img"><img src="{{ MEDIA_URL }}assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <h4>Web 3</h4>
-          <p>Web</p>
-          <a href="{{ MEDIA_URL }}assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-          <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+        <div class="row alazea-portfolio">
+
+            <!-- Single Portfolio Area -->
+            <div class="col-12 col-sm-6 col-lg-3 single_portfolio_item design home-design wow fadeInUp" data-wow-delay="100ms">
+                <!-- Portfolio Thumbnail -->
+                <div class="portfolio-thumbnail bg-img" style="background-image: url({{ MEDIA_URL }}img/bg-img/16.jpg);">change</div>
+                <!-- Portfolio Hover Text -->
+                <div class="portfolio-hover-overlay">
+                    <a href="{{ MEDIA_URL }}img/bg-img/16.jpg" class="portfolio-img d-flex align-items-center justify-content-center" title="Portfolio 1">
+                        <div class="port-hover-text">
+                            <h3>{% get_edit_content request 'portfolio_details_header_1' 'desc' 'Minimal Flower Store' %}</h3>
+                            <h5>{% get_edit_content request 'portfolio_details_sub_header_1' 'desc' 'Office Plants' %}</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Single Portfolio Area -->
+            <div class="col-12 col-sm-6 col-lg-3 single_portfolio_item garden wow fadeInUp" data-wow-delay="200ms">
+                <!-- Portfolio Thumbnail -->
+                <div class="portfolio-thumbnail bg-img" style="background-image: url({{ MEDIA_URL }}img/bg-img/17.jpg);"></div>
+                <!-- Portfolio Hover Text -->
+                <div class="portfolio-hover-overlay">
+                    <a href="{{ MEDIA_URL }}img/bg-img/17.jpg" class="portfolio-img d-flex align-items-center justify-content-center" title="Portfolio 2">
+                        <div class="port-hover-text">
+                            <h3>Minimal Flower Store</h3>
+                            <h5>Office Plants</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Single Portfolio Area -->
+            <div class="col-12 col-sm-6 col-lg-3 single_portfolio_item garden design wow fadeInUp" data-wow-delay="300ms">
+                <!-- Portfolio Thumbnail -->
+                <div class="portfolio-thumbnail bg-img" style="background-image: url({{ MEDIA_URL }}img/bg-img/18.jpg);"></div>
+                <!-- Portfolio Hover Text -->
+                <div class="portfolio-hover-overlay">
+                    <a href="{{ MEDIA_URL }}img/bg-img/18.jpg" class="portfolio-img d-flex align-items-center justify-content-center" title="Portfolio 3">
+                        <div class="port-hover-text">
+                            <h3>Minimal Flower Store</h3>
+                            <h5>Office Plants</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Single Portfolio Area -->
+            <div class="col-12 col-sm-6 col-lg-3 single_portfolio_item garden office-design wow fadeInUp" data-wow-delay="400ms">
+                <!-- Portfolio Thumbnail -->
+                <div class="portfolio-thumbnail bg-img" style="background-image: url({{ MEDIA_URL }}img/bg-img/19.jpg);"></div>
+                <!-- Portfolio Hover Text -->
+                <div class="portfolio-hover-overlay">
+                    <a href="{{ MEDIA_URL }}img/bg-img/19.jpg" class="portfolio-img d-flex align-items-center justify-content-center" title="Portfolio 4">
+                        <div class="port-hover-text">
+                            <h3>Minimal Flower Store</h3>
+                            <h5>Office Plants</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Single Portfolio Area -->
+            <div class="col-12 col-sm-6 col-lg-3 single_portfolio_item design office-design wow fadeInUp" data-wow-delay="100ms">
+                <!-- Portfolio Thumbnail -->
+                <div class="portfolio-thumbnail bg-img" style="background-image: url({{ MEDIA_URL }}img/bg-img/20.jpg);"></div>
+                <!-- Portfolio Hover Text -->
+                <div class="portfolio-hover-overlay">
+                    <a href="{{ MEDIA_URL }}img/bg-img/20.jpg" class="portfolio-img d-flex align-items-center justify-content-center" title="Portfolio 5">
+                        <div class="port-hover-text">
+                            <h3>Minimal Flower Store</h3>
+                            <h5>Office Plants</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Single Portfolio Area -->
+            <div class="col-12 col-sm-6 col-lg-3 single_portfolio_item garden wow fadeInUp" data-wow-delay="200ms">
+                <!-- Portfolio Thumbnail -->
+                <div class="portfolio-thumbnail bg-img" style="background-image: url({{ MEDIA_URL }}img/bg-img/21.jpg);"></div>
+                <!-- Portfolio Hover Text -->
+                <div class="portfolio-hover-overlay">
+                    <a href="{{ MEDIA_URL }}img/bg-img/21.jpg" class="portfolio-img d-flex align-items-center justify-content-center" title="Portfolio 6">
+                        <div class="port-hover-text">
+                            <h3>Minimal Flower Store</h3>
+                            <h5>Office Plants</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Single Portfolio Area -->
+            <div class="col-12 col-lg-6 single_portfolio_item home-design wow fadeInUp" data-wow-delay="300ms">
+                <!-- Portfolio Thumbnail -->
+                <div class="portfolio-thumbnail bg-img" style="background-image: url({{ MEDIA_URL }}img/bg-img/22.jpg);"></div>
+                <!-- Portfolio Hover Text -->
+                <div class="portfolio-hover-overlay">
+                    <a href="{{ MEDIA_URL }}img/bg-img/22.jpg" class="portfolio-img d-flex align-items-center justify-content-center" title="Portfolio 7">
+                        <div class="port-hover-text">
+                            <h3>Minimal Flower Store</h3>
+                            <h5>Office Plants</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
         </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-        <div class="portfolio-img"><img src="{{ MEDIA_URL }}assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <h4>App 2</h4>
-          <p>App</p>
-          <a href="{{ MEDIA_URL }}assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 2"><i class="bx bx-plus"></i></a>
-          <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-        <div class="portfolio-img"><img src="{{ MEDIA_URL }}assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <h4>Card 2</h4>
-          <p>Card</p>
-          <a href="{{ MEDIA_URL }}assets/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Card 2"><i class="bx bx-plus"></i></a>
-          <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-        <div class="portfolio-img"><img src="{{ MEDIA_URL }}assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <h4>Web 2</h4>
-          <p>Web</p>
-          <a href="{{ MEDIA_URL }}assets/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 2"><i class="bx bx-plus"></i></a>
-          <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-        <div class="portfolio-img"><img src="{{ MEDIA_URL }}assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <h4>App 3</h4>
-          <p>App</p>
-          <a href="{{ MEDIA_URL }}assets/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 3"><i class="bx bx-plus"></i></a>
-          <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-        <div class="portfolio-img"><img src="{{ MEDIA_URL }}assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <h4>Card 1</h4>
-          <p>Card</p>
-          <a href="{{ MEDIA_URL }}assets/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Card 1"><i class="bx bx-plus"></i></a>
-          <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-        <div class="portfolio-img"><img src="{{ MEDIA_URL }}assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <h4>Card 3</h4>
-          <p>Card</p>
-          <a href="{{ MEDIA_URL }}assets/img/portfolio/portfolio-8.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Card 3"><i class="bx bx-plus"></i></a>
-          <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-        <div class="portfolio-img"><img src="{{ MEDIA_URL }}assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <h4>Web 3</h4>
-          <p>Web</p>
-          <a href="{{ MEDIA_URL }}assets/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-          <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-        </div>
-      </div>
-
     </div>
-
-  </div>
-</section><
+</section>

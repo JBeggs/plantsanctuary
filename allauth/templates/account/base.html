@@ -1,43 +1,124 @@
 {% load i18n %}
+{% load cms_tags menu_tags sekizai_tags %}
+{% load site_content %}
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block head_title %}{% endblock %}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link rel="icon" href="{{ MEDIA_URL }}img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/ps_style.css">
     {% block extra_head %}
     {% endblock %}
   </head>
   <body>
-    {% block body %}
+    {% include 'layouts/navigation/navigation.html' %}
+    <div class="breadcrumb-area">
+        <!-- Top Breadcrumb Area -->
+        <div class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center" style="background-image: url({{ MEDIA_URL }}img/bg-img/24.jpg);">
+            <h2>{% get_edit_content request 'login_page_header_top' 'desc' 'Become a Member' %}</h2>
+        </div>
 
-    {% if messages %}
-    <div>
-      <strong>{% trans "Messages:" %}</strong>
-      <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
 
-    <div>
-      <strong>{% trans "Menu:" %}</strong>
-      <ul>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'account_email' %}">{% trans "Change E-mail" %}</a></li>
-        <li><a href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a></li>
-        {% else %}
-        <li><a href="{% url 'account_login' %}">{% trans "Sign In" %}</a></li>
-        <li><a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a></li>
-        {% endif %}
-      </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </div>
-    {% block content %}
-    {% endblock %}
-    {% endblock %}
-    {% block extra_body %}
-    {% endblock %}
+    <br />
+      <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-12 col-lg-5">
+                <!-- Section Heading -->
+                    {% block body %}
+                    {% if messages %}
+                    <div>
+                      <strong>{% trans "Messages:" %}</strong>
+                      <ul>
+                        {% for message in messages %}
+                        <li>{{message}}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    {% endif %}
+
+                    <div>
+                      <ul>
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'account_email' %}">{% trans "Change E-mail" %}</a></li>
+                        <li><a href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a></li>
+                        {% else %}
+                        <li><a href="{% url 'account_login' %}">{% trans "Sign In" %}</a></li>
+                        <li><a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                    {% block content %}
+
+                    {% endblock %}
+                    {% endblock %}
+                    {% block extra_body %}
+                    {% endblock %}
+
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="alazea-benefits-area">
+                    <div class="row">
+                        <!-- Single Benefits Area -->
+                        <div class="col-12 col-sm-6">
+                            <div class="single-benefits-area">
+                                <img src="media/img/core-img/b1.png" alt="">
+                                <h5>{% get_edit_content request 'login_page_header' 'desc' 'Quality Products' %}</h5>
+                                <p>{% get_edit_content request 'login_page_header_description' 'desc' 'Intiam eu sagittis est, at commodo lacini libero. Praesent dignissim sed odio vel aliquam manta lagorn.' %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    {% include 'layouts/footer/footer.html' %}
+
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change the text and save to update the content</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+<!--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>-->
+<!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery-2.2.4 js -->
+    <script src="{{ MEDIA_URL }}js/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="{{ MEDIA_URL }}js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="{{ MEDIA_URL }}js/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="{{ MEDIA_URL }}js/plugins.js"></script>
+    <!-- Active js -->
+    <script src="{{ MEDIA_URL }}js/active.js"></script>
   </body>
 </html>

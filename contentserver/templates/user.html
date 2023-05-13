@@ -1,0 +1,63 @@
+{% extends "ps_home_base.html" %}
+{% load cms_tags %}
+
+{% block title %}title{% endblock title %}
+
+{% block content %}
+    {% include 'layouts/navigation/home_navigation.html' %}
+    {% include 'layouts/hero/hero.html' %}
+<container>
+    <row>
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ phonenumber_form }}
+    <input type="submit" value="Submit">
+</form>
+
+<br /><br /><br /><br />
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ profile_form }}
+    <input type="submit" value="Submit">
+</form>
+
+<br /><br /><br /><br />
+
+{% for address in addresses %}
+
+    {% ifequal address.address_type 'B'%}
+        Billing
+    {% else %}
+        Shipping
+    {% endifequal %}<br />
+    {% if address.default %}Default Address{% endif%}<br />
+    {{ address.country.name }}<br />
+    <img src="{{ address.country.flag }}" /><br />
+    {{ address.city }}<br />
+    {{ address.street_address }}<br />
+    {{ address.apartment_address }}<br />
+    {{ address.postal_code }}<br />
+
+{% endfor %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ address_form }}
+    <input type="submit" value="Submit">
+</form>
+
+<br /><br /><br /><br />
+<form action="" method="post">
+    {% csrf_token %}
+    {{ user_form }}
+    <input type="submit" value="Submit">
+</form>
+
+
+    </row>
+
+</container>
+
+{% include 'layouts/footer/footer.html' %}
+{% endblock %}

@@ -1,3 +1,6 @@
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.views.generic import TemplateView
 from rest_framework import permissions, viewsets
 
 from .models import Product, ProductCategory
@@ -35,3 +38,22 @@ class ProductViewSet(viewsets.ModelViewSet):
             self.permission_classes = (permissions.AllowAny, )
 
         return super().get_permissions()
+
+
+class ProductsView(TemplateView):
+
+    template_name = 'products.html'
+
+    def post(self, request, *args, **kwargs):
+
+        post_data        = request.POST or None
+
+        # if request.POST != {}:
+        #     return redirect("/products/")
+        products = Product.objects.filter(active=True)
+
+        return self.render_to_response({'products': products})
+
+    def get(self, request, *args, **kwargs):
+
+        return self.post(request, *args, **kwargs)

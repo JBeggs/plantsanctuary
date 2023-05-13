@@ -1,100 +1,71 @@
-<div class="container-xxl py-5">
+{% load site_content %}
+
+<section class="our-services-area bg-gray section-padding-100-0">
     <div class="container">
-        <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-            <p class="fs-5 fw-bold text-primary">Our Services</p>
-            <h1 class="display-5 mb-5">Services That We Offer For You</h1>
+        <div class="row">
+            <div class="col-12">
+                <!-- Section Heading -->
+                <div class="section-heading text-center">
+                    <h2>{% get_edit_content request 'our_services_header' 'desc' 'OUR SERVICES' %}</h2>
+                    <p> {% get_edit_content request 'our_services_description' 'desc' 'We provide the perfect service for you.' %}</p>
+                </div>
+            </div>
         </div>
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="{{ MEDIA_URL }}img/service-1.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <img class="img-fluid" src="{{ MEDIA_URL }}img/icon/icon-3.png" alt="Icon">
+
+        <div class="row justify-content-between">
+            <div class="col-12 col-lg-5">
+                <div class="alazea-service-area mb-100">
+
+                    <!-- Single Service Area -->
+                    <div class="single-service-area d-flex align-items-center wow fadeInUp" data-wow-delay="100ms">
+                        <!-- Icon -->
+                        <div class="service-icon mr-30">
+                            {% get_edit_content request 'our_services_image_1' 'image' '<img src="media/img/core-img/s1.png" alt="">' %}
                         </div>
-                        <h4 class="mb-3">Landscaping</h4>
-                        <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
+                        <!-- Content -->
+                        <div class="service-content">
+                            <h5>{% get_edit_content request 'our_services_header_1' 'desc' 'Plants Care' %}</h5>
+                            <p>{% get_edit_content request 'our_services_description_1' 'desc' 'In Aenean purus, pretium sito amet sapien denim moste consectet sedoni urna placerat sodales.service its.' %}</p>
+                        </div>
                     </div>
+
+                    <!-- Single Service Area -->
+                    <div class="single-service-area d-flex align-items-center wow fadeInUp" data-wow-delay="300ms">
+                        <!-- Icon -->
+                        <div class="service-icon mr-30">
+                            {% get_edit_content request 'our_services_image_2' 'image' '<img src="media/img/core-img/s2.png" alt="">' %}
+                        </div>
+                        <!-- Content -->
+                        <div class="service-content">
+                            <h5>{% get_edit_content request 'our_services_header_2' 'desc' 'Pressure Washing' %}</h5>
+                            <p>{% get_edit_content request 'our_services_description_2' 'desc' 'In Aenean purus, pretium sito amet sapien denim moste consectet sedoni urna placerat sodales.service its.' %}</p>
+                        </div>
+                    </div>
+
+                    <!-- Single Service Area -->
+                    <div class="single-service-area d-flex align-items-center wow fadeInUp" data-wow-delay="500ms">
+                        <!-- Icon -->
+                        <div class="service-icon mr-30">
+                            {% get_edit_content request 'our_services_image_3' 'image' '<img src="media/img/core-img/s3.png" alt="">' %}
+                        </div>
+                        <!-- Content -->
+                        <div class="service-content">
+                            <h5>{% get_edit_content request 'our_services_header_3' 'desc' 'Tree Service &amp; Trimming' %}</h5>
+                            <p>{% get_edit_content request 'our_services_description_3' 'desc' 'In Aenean purus, pretium sito amet sapien denim moste consectet sedoni urna placerat sodales.service its.' %}</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="{{ MEDIA_URL }}img/service-2.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <img class="img-fluid" src="{{ MEDIA_URL }}img/icon/icon-6.png" alt="Icon">
-                        </div>
-                        <h4 class="mb-3">Pruning plants</h4>
-                        <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="{{ MEDIA_URL }}img/service-3.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <img class="img-fluid" src="{{ MEDIA_URL }}img/icon/icon-5.png" alt="Icon">
-                        </div>
-                        <h4 class="mb-3">Irrigation & Drainage</h4>
-                        <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="{{ MEDIA_URL }}img/service-4.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <img class="img-fluid" src="{{ MEDIA_URL }}img/icon/icon-4.png" alt="Icon">
-                        </div>
-                        <h4 class="mb-3">Garden Maintenance </h4>
-                        <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="{{ MEDIA_URL }}img/service-5.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <img class="img-fluid" src="{{ MEDIA_URL }}img/icon/icon-8.png" alt="Icon">
-                        </div>
-                        <h4 class="mb-3">Green Technology</h4>
-                        <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="{{ MEDIA_URL }}img/service-6.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <img class="img-fluid" src="{{ MEDIA_URL }}img/icon/icon-2.png" alt="Icon">
-                        </div>
-                        <h4 class="mb-3">Urban Gardening</h4>
-                        <p class="mb-4">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="alazea-video-area bg-overlay mb-100">
+                    {% get_edit_content request 'our_services_image_video' 'image' '<img src="media/img/bg-img/23.jpg" alt="">' %}
+<!--                    <a href="http://www.youtube.com/watch?v=7HKoqNJtMTQ" class="video-icon">-->
+<!--                        <i class="fa fa-play" aria-hidden="true"></i>-->
+<!--                    </a>-->
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>

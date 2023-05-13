@@ -41,6 +41,13 @@ class Order(models.Model):
         """
         return round(sum([order_item.cost for order_item in self.order_items.all()]), 2)
 
+    @cached_property
+    def total_items(self):
+        """
+        Total cost of all the items in an order
+        """
+        return self.order_items.all().count()
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
