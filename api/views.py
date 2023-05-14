@@ -113,11 +113,22 @@ def update(request):
             if partial_key.lower() in key.lower()
         }
 
-        print(matching_items)
         for element, content in matching_items.items():
             name = element.replace(partial_key, "")
             element_content = Content.objects.filter(name=name).first()
             element_content.desc = content
             element_content.save()
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def delete(request, id):
+
+    # pk = request.GET.get('pk', '')
+
+    if id:
+        delete = Content.objects.filter(pk=id).first()
+        delete.delete()
 
     return redirect(request.META.get('HTTP_REFERER'))

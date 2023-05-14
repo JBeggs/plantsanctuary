@@ -2,7 +2,7 @@
     {% include 'layouts/navigation/navigation.html' %}
 
     <!-- ##### Breadcrumb Area Start ##### -->
-    <div class="breadcrumb-area">
+    <div class="breadcrumb-area bg-gray">
         <!-- Top Breadcrumb Area -->
         <div class="top-breadcrumb-area bg-img bg-overlay d-flex align-items-center justify-content-center" style="background-image: url({{ MEDIA_URL }}img/bg-img/24.jpg);">
             <h2>{% get_edit_content request 'contact_us_page_header' 'desc' 'Contact US' %}</h2>
@@ -21,8 +21,8 @@
             </div>
         </div>
     </div>
-
-    <div class="container">
+<section class="contact-area bg-gray section-padding-100-0">
+    <div class="container" style="padding-bottom: 2px;">
         <div class="row">
             <div class="col-12">
                 <!-- Section Heading -->
@@ -37,6 +37,7 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <h5>{% get_edit_content request 'contact_us_page_header_sub_header' 'desc' 'About this project' %}</h5>
+                    <p>{% get_edit_content request 'contact_us_page_header_sub_p_1_image' 'image' '' %}</p>
                     <p>{% get_edit_content request 'contact_us_page_header_sub_p_1' 'desc' 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam laoreet, libero sedomin dignissim maximus, ex lorem honcus nisl, quis rhoncus dui elit in magna. Donec efficitur, senget mantis cursus, enim augue iaculis enim, eu rutrum augue diam id nunc.' %}</p>
                     <p>{% get_edit_content request 'contact_us_page_header_sub_p_2' 'desc' 'Maecenas tincidunt ornare aliquet. Phasellus mattis arcu quis dolor sollicitudin sagittis. On inter donpo porta ultricies. Mauris nec urna a urna commodo rutrum sollicitudin nec neque. Sed vel justo a mi fermentum consequat. In eget luctus lectus. Aliquam malesuada nunc justo.' %}</p>
                 </div>
@@ -49,14 +50,19 @@
                         <li><i class="fa fa-check"></i> {% get_edit_content request 'contact_us_page_header_sub_p_2_4' 'desc' 'Proin ex sem, ultrices drax the sit amet, facilisis destroyer et odio profession risusest.' %}</li>
                         <li><i class="fa fa-check"></i> {% get_edit_content request 'contact_us_page_header_sub_p_2_5' 'desc' 'Morbi maximus mauris eget groot dignissim, in laoreet justo facilisis.' %}</li>
                     </ul>
+                    <p>{% get_edit_content request 'contact_us_page_header_sub_p_2_image' 'image' '' %}</p>
                 </div>
                 <div class="col-12">
                     <h5>{% get_edit_content request 'contact_us_page_header_sub_header_3' 'desc' 'Client requirements' %}</h5>
                     <p>{% get_edit_content request 'contact_us_page_header_sub_header_3_p' 'desc' 'Pellentesque rhoncus, sem non bibendum accumsan, nulla lacus accumsan libero, non laoreet nunc ex in metus. Nam vitae justo quis mauris lacinia ultrices. In aliquet, elit id lobortis venenatis, mauris nulla posuere felis, ut efficitur elit diam nec purus. Aenean convallis justo augue finibus mollis. Nullam diam nibh, porttitor non arcu ac, feugiat feugiat mauris.' %}</p>
                 </div>
+                <div class="image map-area bg-gray mb-100">
+                    {% get_edit_content request 'contact_us_page_contact_image_1' 'image' '' %}
+                </div>
+
             </div>
         </div>
     </div>
-
-    {% include 'layouts/main/contact.html' %}
+</section>
+    {% include 'layouts/main/contact/contact.html' %}
     {% include 'layouts/footer/footer.html' %}

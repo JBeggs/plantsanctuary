@@ -1,0 +1,26 @@
+{% load site_content %}
+<section class="gallery bg-gray section-padding-100-0" style="padding-bottom: 2px;">
+    <div class="portfolio-slides owl-carousel mb-100">
+        <!-- Single Portfolio Slide -->
+        <div class="single-portfolio-slide">
+            {% get_edit_content request 'home_page_slideshow_image_1' 'image' '<img src="/media/img/bg-img/26.jpg" alt="">' %}
+        </div>
+        <!-- Single Portfolio Slide -->
+        <div class="single-portfolio-slide">
+            {% get_edit_content request 'home_page_slideshow_image_2' 'image' '<img src="/media/img/bg-img/27.jpg" alt="">' %}
+        </div>
+        <!-- Single Portfolio Slide -->
+        <div class="single-portfolio-slide">
+          {% get_edit_content request 'home_page_slideshow_image_3' 'image' '<img src="/media/img/bg-img/28.jpg" alt="">' %}
+        </div>
+        <div class="single-portfolio-slide">
+          {% get_edit_content request 'home_page_slideshow_image_4' 'image' '<img src="/media/img/bg-img/28.jpg" alt="">' %}
+        </div>
+        <div class="single-portfolio-slide">
+          {% get_edit_content request 'home_page_slideshow_image_5' 'image' '<img src="/media/img/bg-img/28.jpg" alt="">' %}
+        </div>
+        <div class="single-portfolio-slide">
+          {% get_edit_content request 'home_page_slideshow_image_6' 'image' '<img src="/media/img/bg-img/28.jpg" alt="">' %}
+        </div>
+    </div>
+</section>

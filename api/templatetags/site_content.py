@@ -99,7 +99,9 @@ def get_edit_content(request, name, _type, default_text, *args, **kwargs):
             <form class="content_editor_{name}" action="/api/update" method="post" enctype="multipart/form-data">
               <input type="file" id="image_content_editor_{name}" name="image_content_editor_{name}" accept="image/*">
               <input type="hidden" name="csrfmiddlewaretoken" value="{token}">
+              <p>
               <input type="submit" class="btn alazea-btn">
+              <input onclick="window.location='/api/delete/{content.id}/'" type="button" class="btn alazea-btn" value="Delete"></p>
             </form>
             </div>"""
             return mark_safe(edit_html.replace("{{", "{").replace("}}", "}"))
