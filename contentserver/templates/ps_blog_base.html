@@ -1,3 +1,5 @@
+
+{% load cms_tags menu_tags sekizai_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,9 +8,24 @@
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block meta %}
+    {% comment %}
+    This is needed if you can't add ``{% include "meta/meta.html" %}`` in the django CMS template attached to the blog
+    page or if you use djangocms-page-meta.
+
+    Please check the documentation at https://djangocms-blog.readthedocs.io/en/latest/features/meta.html for more
+    details about the correct template configuration for social media tags rendering.
+    {% endcomment %}
+    {% if meta %}
+        {% include "meta/meta.html" %}
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+    {% endblock meta %}
+
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <!-- Title -->
-    <title>{{ page.title }}</title>
+    <title>{% block title %}{% page_attribute page_title %}{% endblock %}</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ MEDIA_URL }}img/favicon.ico">
 
@@ -19,7 +36,19 @@
 
 <body>
 
-    {% include 'layouts/blog.html' %}
+
+    {% include 'layouts/navigation/blog.html' %}
+    {% include 'layouts/main/blog/breadcrumbs.html' %}
+    {% include 'layouts/main/blog/main.html' %}
+
+    {% block content %}
+        <div class="app app-blog">
+            {% block content_blog %}{% endblock %}
+        </div>
+    {% endblock content %}
+
+    {% include 'layouts/footer/footer.html' %}
+
 
     <!-- jQuery-2.2.4 js -->
     <script src="{{ MEDIA_URL }}js/jquery-2.2.4.min.js"></script>

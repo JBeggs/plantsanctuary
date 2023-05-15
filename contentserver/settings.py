@@ -154,7 +154,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 MEDIA_ROOT = '/home/jodybeggs/contentserver/media'
 MEDIA_URL = '/media/'
@@ -240,7 +240,6 @@ CMS_LANGUAGES = {
 
 CMS_TEMPLATES = (
     ## Customize this
-    ('comingsoon.html', 'Coming Soon'),
     ('ps_home.html', 'Home'),
     ('ps_about.html', 'About'),
     ('ps_shop.html', 'Shop'),
@@ -250,7 +249,7 @@ CMS_TEMPLATES = (
     ('ps_contact.html', 'Contact'),
     ('ps_checkout.html', 'Checkout'),
     ('ps_blog.html', 'Blog'),
-    ('ps_single_post.html', 'Blog'),
+    ('ps_single_post.html', 'Blog - Single Post'),
     ('services.html', 'Services'),
     ('products.html', 'Products'),
 )
@@ -275,25 +274,60 @@ LOGOUT_URL = '/logout/'
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '123',
-            'secret': '456',
-            'key': ''
-        }
-    },
     'github': {
         'SCOPE': [
             'user',
             'repo',
             'read:org',
         ],
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    },
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+        'SCOPE': ['email', 'public_profile'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'first_name',
+            'last_name',
+            'middle_name',
+            'name',
+            'name_format',
+            'picture',
+            'short_name'
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v13.0',
+        'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
+    },
+    'linkedin': {
+        'SCOPE': [
+            'r_basicprofile',
+            'r_emailaddress'
+        ],
+        'PROFILE_FIELDS': [
+            'id',
+            'first-name',
+            'last-name',
+            'email-address',
+            'picture-url',
+            'public-profile-url',
+        ]
     }
 }
-
 TOKEN_LENGTH = 100
 
 STRIPE_SECRET_KEY = 'Fsdfasfdafsd4f3@R231R'
@@ -304,4 +338,33 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
+}
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+META_SITE_PROTOCOL = 'https'  # set 'http' for non ssl enabled websites
+META_USE_SITES = True
+
+# META_USE_OG_PROPERTIES=True
+# META_USE_TWITTER_PROPERTIES=True
+# META_USE_GOOGLEPLUS_PROPERTIES=True # django-meta 1.x+
+# META_USE_SCHEMAORG_PROPERTIES=True  # django-meta 2.x+
+
+PARLER_LANGUAGES = {
+    1: (
+        {'code': 'en',},
+        # {'code': 'it',},
+        # {'code': 'fr',},
+    ),
+    'default': {
+        'fallbacks': [
+            'en',
+            #'it',
+            #'fr'
+        ],
+    }
 }

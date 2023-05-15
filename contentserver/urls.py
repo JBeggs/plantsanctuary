@@ -36,6 +36,7 @@ urlpatterns += (
     path('accounts/', include('allauth.urls')),
     path("admin/", admin.site.urls),
     path("", include("cms.urls")),
+    path('taggit_autosuggest/', include('taggit_autosuggest.urls')),
 )
 
 # This is only needed when using runserver.
