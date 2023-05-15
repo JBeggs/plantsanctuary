@@ -3,7 +3,7 @@
 ## Basic requirements
 
 - Python3.8 or Greater
-- Django==3.2
+- Django==3.2.19
 - django-allauth latest
 - django-cms==3.9.0 
 
