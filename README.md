@@ -21,17 +21,3 @@
 * djangocms-style==3.0.0
 * djangocms-text-ckeditor==4.0.0
 * djangocms-video==3.0.0
-
-### Create the virtual environment
-
-> python -m venv name-of-venv
-> 
-### Activate virtual environment
-
-> source venv/bin/activate
-
-### Clone the base
-
-> git clone https://github.com/JBeggs/plantsanctuary.git
-
-### to do
