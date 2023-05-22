@@ -1,0 +1,52 @@
+{% load djangocms_blog i18n easy_thumbnails_tags cms_tags %}
+
+ <div class="col-12 col-lg-6">
+    <div class="single-blog-post mb-50">
+        <div class="post-thumbnail mb-30">
+            <div class="">
+                {% thumbnail post.main_image post.thumbnail_options.size crop=post.thumbnail_options.crop upscale=post.thumbnail_options.upscale subject_location=post.main_image.subject_location as thumb %}
+                <img src="{{ thumb.url }}" alt="{{ post.main_image.default_alt_text }}" width="{{ thumb.width }}" height="{{ thumb.height }}" />
+            </div>
+        </div>
+        <div class="post-content">
+
+            <div class="post-meta">
+                {% if post.date_published %}
+                    <a href="#"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ post.date_published|date:"DATE_FORMAT" }}</a>
+                {% endif %}
+                {% if post.author %}
+                    <a href="{% url 'djangocms_blog:posts-author' post.author.get_username %}"><i class="fa fa-user" aria-hidden="true"></i> {% if post.author.get_full_name %}{{ post.author.get_full_name }}{% else %}{{ post.author }}{% endif %}</a>
+                {% endif %}
+
+            </div>
+            <p class="post-excerpt">
+                {% if not TRUNCWORDS_COUNT %}
+                    {% render_model post "abstract" "" "" "safe" %}
+                {% else %}
+                    {% render_model post "abstract" "" "" "truncatewords_html:TRUNCWORDS_COUNT|safe"  %}
+                {% endif %}
+            </p>
+            <a href="{{ post.get_absolute_url }}">{% trans "read more" %} &raquo;</a>
+        </div>
+    </div>
+</div>
+<!--                        </div>-->
+<!--    <div class="single-blog-post mb-50">-->
+
+<!--    <div class="">-->
+<!--        <a href="single-post.html" class="post-title">-->
+<!--            <h5>{{ post.title }}</h5>-->
+<!--            {% if post.subtitle %}-->
+<!--                <h4>{{ post.subtitle }}</h4>-->
+<!--            {% endif %}-->
+
+<!--        </a>-->
+<!--        <p class="t">-->
+
+<!--        </p>-->
+<!--        <footer class="">-->
+<!--            <a href="{{ post.get_absolute_url }}">{% trans "read more" %} 2&raquo;</a>-->
+<!--        </footer>-->
+<!--    </div>-->
+<!--        </div>-->
+<!--</div>-->

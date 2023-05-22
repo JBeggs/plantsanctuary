@@ -1,4 +1,4 @@
-{% load security_tags user_cart %}
+{% load security_tags user_cart site_content %}
 <div class="preloader d-flex align-items-center justify-content-center">
         <div class="preloader-circle"></div>
         <div class="preloader-img">
@@ -60,7 +60,7 @@
                     <nav class="classy-navbar justify-content-between" id="alazeaNav">
 
                         <!-- Nav Brand -->
-                        <a href="/" class="nav-brand"><h2 style="color:white;">Plant Sanctuary</h2></a>
+                        <a href="/" class="nav-brand"><h2 style="color:white;">{% get_edit_content request 'navigation_header_main' 'desc' 'The Plant Sanctuary' %}</h2></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -80,6 +80,7 @@
                                 <ul>
                                     <li><a href="/">Home</a></li>
                                     <li><a href="/about/">About</a></li>
+                                    <li><a href="/blog/">Blog</a></li>
 <!--                                    <li><a href="#">Pages</a>-->
 <!--                                        <ul class="dropdown">-->
 <!--                                            <li><a href="/">Home</a></li>-->

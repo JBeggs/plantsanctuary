@@ -278,8 +278,9 @@ class UserView(TemplateView):
         if request.POST != {}:
             return redirect("/user/")
 
-        context['addresses'] = Address.objects.filter(user=request.user)
-
+        context['addresses'] = Address.objects.filter(user=request.user).first()
+        context['user'] = User.objects.filter(pk=request.user.id).first()
+        context['phonenumber'] = PhoneNumber.objects.filter(user=request.user).first()
         return self.render_to_response(context)
 
     def user_save(self, form):

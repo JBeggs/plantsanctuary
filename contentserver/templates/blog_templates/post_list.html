@@ -1,0 +1,125 @@
+{% extends "djangocms_blog/base.html" %}
+{% load i18n easy_thumbnails_tags site_content %}{% spaceless %}
+
+{% block canonical_url %}<link rel="canonical" href="{{ view.get_view_url }}"/>{% endblock canonical_url %}
+
+{% block content_blog %}
+<section class="alazea-blog-area section-padding-100-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Section Heading -->
+                <div class="section-heading text-center">
+                    <h2>{% get_edit_content request 'blog_page_header_main' 'desc' 'LATEST NEWS' %}</h2>
+                    <p>{% get_edit_content request 'blog_page_header_desciption' 'desc' 'The breaking news about Gardening &amp; House plants' %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+    <!-- ##### Blog Area Start ##### -->
+    <section class="alazea-blog-area mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <div class="row">
+                    {% block blog_title %}
+
+                    {% endblock %}
+                    {% for post in post_list %}
+                        {% include "blog_templates/includes/blog_item.html" with post=post image="true" TRUNCWORDS_COUNT=TRUNCWORDS_COUNT %}
+                    {% empty %}
+                    <p class="blog-empty">{% trans "No article found." %}</p>
+                    {% endfor %}
+
+                    {% if author or archive_date or tagged_entries %}
+                        <p class="blog-back"><a href="{% url 'djangocms_blog:posts-latest' %}">{% trans "Back" %}</a></p>
+                    {% endif %}
+                    </div>
+
+                    <div class="row">
+                    {% if is_paginated %}
+                    <nav class="{% firstof css_grid instance.css_grid %} pagination">
+                        {% if page_obj.has_previous %}
+                            <a href="?{{ view.page_kwarg }}={{ page_obj.previous_page_number }}">&laquo; {% trans "previous" %}</a>
+                        {% endif %}
+                        <span class="current">
+                            {% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ paginator.num_pages }}
+                        </span>
+                        {% if page_obj.has_next %}
+                            <li class="page-item"><a class="page-link" href="?{{ view.page_kwarg }}={{ page_obj.next_page_number }}"><i class="fa fa-angle-right"></i></a></li>
+                        {% endif %}
+                    </nav>
+                    {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="post-sidebar-area">
+
+                        <!-- ##### Single Widget Area ##### -->
+                        <div class="single-widget-area">
+                            <form action="#" method="get" class="search-form">
+                                <input type="search" name="search" id="widgetsearch" placeholder="Search...">
+                                <button type="submit"><i class="icon_search"></i></button>
+                            </form>
+                        </div>
+
+                        <div class="single-widget-area">
+                            <!-- Title -->
+                            <div class="widget-title">
+                                <h4>BEST SELLER</h4>
+                            </div>
+
+
+
+                            <div class="single-best-seller-product d-flex align-items-center">
+                                <div class="product-thumbnail">
+                                    <a href="shop-details.html"><img src="img/bg-img/4.jpg" alt=""></a>
+                                </div>
+                                <div class="product-info">
+                                    <a href="shop-details.html">Cactus Flower</a>
+                                    <p>$10.99</p>
+                                    <div class="ratings">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </div>
+</section>
+
+
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="row">
+            <section>
+
+
+
+
+            </section>
+            </div>
+            </div></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% endspaceless %}
