@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from rest_framework import viewsets
 
@@ -79,6 +81,7 @@ class OrderFormView(FormView):
         return super().form_valid(form)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class OrdersView(TemplateView):
 
     template_name = 'orders.html'

@@ -4,6 +4,7 @@
 {% block title %}{% page_attribute page_title %} - Home{% endblock title %}
 
 {% block content %}
+
     {% include 'layouts/navigation/profile_navigation.html' %}
     {% include 'layouts/main/profile/breadcrumbs.html' %}
 
@@ -81,7 +82,7 @@
                         {% for address in addresses %}
 
                             <div class="col-md-12"> {% ifequal address.address_type 'B' %}Billing{% else %}Shipping{% endifequal %}</div>
-                            <div class="col-md-12"> {{address.default}}{% if address.default %}Default Address{% endif%}</div>
+                            <div class="col-md-12"> {% if address.default %}Default Address{% endif%}</div>
                             <div class="col-md-12"> {{ address.country.name }} - <img src="{{ address.country.flag }}" /></div>
                             <div class="col-md-12"> {{ address.city }}</div>
                             <div class="col-md-12"> {{ address.street_address }}</div>

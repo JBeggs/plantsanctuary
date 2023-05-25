@@ -29,9 +29,9 @@ urlpatterns = [
 
 urlpatterns += (
 
-    path('products/', ProductsView.as_view(), name="products"),
+    path('shop/', ProductsView.as_view(), name="products"),
     path('order/', OrderFormView.as_view(), name="order"),
-    path('orders/', OrdersView.as_view(), name="ordera"),
+    path('orders/', OrdersView.as_view(), name="orders"),
     path('user/', UserView.as_view(), name="user"),
     path('accounts/', include('allauth.urls')),
     path("admin/", admin.site.urls),
