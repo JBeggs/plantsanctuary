@@ -120,7 +120,7 @@ def get_edit_content(request, name, _type, default_text, *args, **kwargs):
             if "<src" in image_desc:
                 image_desc = ''
 
-            image = f'<img class="{image_class}" src="/media/{content.image}" alt="{image_desc}" title="{image_desc}" />'
+            image = f'<img class="{image_class}" src="/media/{content.image}"  />'
         else:
             image = content.desc
         return mark_safe(image)
@@ -206,7 +206,7 @@ def get_edit_content_blog(request, blog_id, name, _type, default_text, *args, **
             image_desc = content.desc
             if "<src" in image_desc:
                 image_desc = ''
-            image = f'<img class="{image_class}" src="/media/{content.image}"  alt="{image_desc}" title="{image_desc}"/>'
+            image = f'<img class="{image_class}" src="/media/{content.image}"  />'
         else:
             image = content.desc
         return mark_safe(image)
