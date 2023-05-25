@@ -116,7 +116,7 @@ def get_edit_content(request, name, _type, default_text, *args, **kwargs):
             image_class = ''
             if 'class' in default_text:
                 image_class = default_text.split('class=')[1].split('"')[1]
-            image = f'<img class="{image_class}" src="/media/{content.image}" alt="{content.desc}" title="{content.desc}" />'
+            image = f'<img class="{image_class}" src="/media/{content.image}" />'
         else:
             image = content.desc
         return mark_safe(image)
@@ -197,7 +197,7 @@ def get_edit_content_blog(request, blog_id, name, _type, default_text, *args, **
             image_class = ''
             if 'class' in default_text:
                 image_class = default_text.split('class=')[1].split('"')[1]
-            image = f'<img class="{image_class}" src="/media/{content.image}" alt="{content.desc}" title="{content.desc}" />'
+            image = f'<img class="{image_class}" src="/media/{content.image}" />'
         else:
             image = content.desc
         return mark_safe(image)
