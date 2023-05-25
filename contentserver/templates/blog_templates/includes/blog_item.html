@@ -26,7 +26,8 @@
                     {% render_model post "abstract" "" "" "truncatewords_html:TRUNCWORDS_COUNT|safe"  %}
                 {% endif %}
             </p>
-            <a href="{{ post.get_absolute_url }}">{% trans "read more" %} &raquo;</a>
+            <a class="blog-back btn alazea-btn mt-15" href="{{ post.get_absolute_url }}">{% trans "read more" %} &raquo;</a>
+
         </div>
     </div>
 </div>

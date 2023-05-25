@@ -39,7 +39,12 @@
 <!--                                </div>-->
                                 <!-- Login -->
                                 <div class="login">
-                                    {% if request.user.is_active %}<a href="/accounts/logout/"><i class="fa fa-user" aria-hidden="true"></i> <span>Logout</span></a>{% else %}<a href="/accounts/login/"><i class="fa fa-user" aria-hidden="true"></i> <span>Login</span></a>{% endif %}
+                                                         {% if request.user.is_active %}
+                                        <a href="/accounts/logout/"><i class="fa fa-user" aria-hidden="true"></i> <span>Logout</span></a>
+                                    <a href="/user/"><i class="fa fa-user" aria-hidden="true"></i> <span>Profile</span></a>
+                                    {% else %}
+                                        <a href="/accounts/login/"><i class="fa fa-user" aria-hidden="true"></i> <span>Login</span></a>
+                                    {% endif %}
                                 </div>
                                 <!-- Cart -->
                                 <div class="cart">
@@ -112,7 +117,18 @@
 <!--                                    <li><a href="/portfolio/">Portfolio</a></li>-->
                                     <li><a href="/contact/">Contact</a></li>
                                 </ul>
-
+                                <div class="login">
+                                    {% if request.user.is_active %}
+                                        <a href="/accounts/logout/"><i class="fa fa-user" aria-hidden="true"></i> <span>Logout</span></a>
+                                    <a href="/user/"><i class="fa fa-user" aria-hidden="true"></i> <span>Profile</span></a>
+                                    {% else %}
+                                        <a href="/accounts/login/"><i class="fa fa-user" aria-hidden="true"></i> <span>Login</span></a>
+                                    {% endif %}
+                                </div>
+                                <!-- Cart -->
+                                <div class="cart">
+                                    <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Cart <span class="cart-quantity">{% cart_quantity request %}</span></span></a>
+                                </div>
                                 <!-- Search Icon -->
                                 <div id="searchIcon">
                                     <i class="fa fa-search" aria-hidden="true"></i>

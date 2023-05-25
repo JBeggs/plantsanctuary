@@ -6,6 +6,7 @@ from rest_framework import permissions, viewsets
 from .models import Product, ProductCategory
 from .permissions import IsSellerOrAdmin
 from .serializers import ProductCategoryReadSerializer, ProductReadSerializer, ProductWriteSerializer
+from django.core.paginator import Paginator
 
 
 class ProductCategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -51,8 +52,10 @@ class ProductsView(TemplateView):
         # if request.POST != {}:
         #     return redirect("/products/")
         products = Product.objects.filter(active=True)
-
-        return self.render_to_response({'products': products})
+        paginator = Paginator(products, 10)  # Show 25 contacts per page.
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        return self.render_to_response({'products': products, 'page_obj': page_obj })
 
     def get(self, request, *args, **kwargs):
 

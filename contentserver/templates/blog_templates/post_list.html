@@ -1,5 +1,5 @@
 {% extends "djangocms_blog/base.html" %}
-{% load i18n easy_thumbnails_tags site_content %}{% spaceless %}
+{% load i18n easy_thumbnails_tags site_content product_content %}{% spaceless %}
 
 {% block canonical_url %}<link rel="canonical" href="{{ view.get_view_url }}"/>{% endblock canonical_url %}
 
@@ -63,6 +63,7 @@
 
                         <!-- ##### Single Widget Area ##### -->
                         <div class="single-widget-area">
+                            {% get_category_drop_down_search %}
                             <form action="#" method="get" class="search-form">
                                 <input type="search" name="search" id="widgetsearch" placeholder="Search...">
                                 <button type="submit"><i class="icon_search"></i></button>
@@ -72,27 +73,10 @@
                         <div class="single-widget-area">
                             <!-- Title -->
                             <div class="widget-title">
-                                <h4>BEST SELLER</h4>
+                                <h4>{% get_edit_content request 'blog_page_product_header_main' 'desc' 'BEST SELLER' %}</h4>
                             </div>
 
-
-
-                            <div class="single-best-seller-product d-flex align-items-center">
-                                <div class="product-thumbnail">
-                                    <a href="shop-details.html"><img src="img/bg-img/4.jpg" alt=""></a>
-                                </div>
-                                <div class="product-info">
-                                    <a href="shop-details.html">Cactus Flower</a>
-                                    <p>$10.99</p>
-                                    <div class="ratings">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
+                            {% get_product_list_latest request %}
 
 
                         </div>

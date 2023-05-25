@@ -105,6 +105,7 @@ class OrdersView(TemplateView):
                 order.save()
             else:
                 messages.success(self.request, "Please and Billing and shipping addresses.")
+                return redirect(request.META.get('HTTP_REFERER'))
 
         if 'product_pk' in request.POST:
             order_item = OrderItem()

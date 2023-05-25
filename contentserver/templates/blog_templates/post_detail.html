@@ -1,57 +1,258 @@
 {% extends "djangocms_blog/base.html" %}
-{% load i18n easy_thumbnails_tags cms_tags %}
+{% load i18n easy_thumbnails_tags cms_tags site_content %}
 
 {% block canonical_url %}<link rel="canonical" href="{{ meta.url }}"/>{% endblock canonical_url %}
 {% block title %}{{ post.get_title }}{% endblock %}
 
 {% block content_blog %}{% spaceless %}
-    <section class="alazea-blog-area mb-100">
-        <div class="container">
-            <div class="row">
 
-                        <article id="post-{{ post.slug }}" class="post-item post-detail">
-                            <header>
-                                <h2>{% render_model post "title" %}</h2>
-                                {% if post.subtitle %}
-                                    <h3>{% render_model post "subtitle" %}</h3>
-                                {% endif %}
-                                {% block blog_meta %}
-                                    {% include "djangocms_blog/includes/blog_meta.html" %}
-                                {% endblock %}
-                            </header>
-                            {% if not post.main_image_id %}
-                                <div class="blog-visual">{% render_placeholder post.media %}</div>
-                            {% else %}
-                            <div class="blog-visual">
-                                {% thumbnail post.main_image post.full_image_options.size crop=post.full_image_options.crop upscale=post.full_image_options.upscale subject_location=post.main_image.subject_location  as thumb %}
-                                <img src="{{ thumb.url }}" alt="{{ post.main_image.default_alt_text }}" width="{{ thumb.width }}" height="{{ thumb.height }}" />
-                            </div>
-                            {% endif %}
-                            {% endspaceless %}
-                            {% if post.app_config.use_placeholder %}
-                                <div class="blog-content">{% render_placeholder post.content %}</div>
-                            {% else %}
-                                <div class="blog-content">{% render_model post "post_text" "post_text" "" "safe" %}</div>
-                            {% endif %}
-                            {% if view.liveblog_enabled %}
-                                {% include "liveblog/includes/post_detail.html" %}
-                            {% endif %}
-                            {% if post.related.exists %}
-                            <section class="alazea-blog-area mb-100">
-                                <div class="container">
-                                    <div class="row">
-                                        {% for related in post.related.all %}
-                                            {% include "djangocms_blog/includes/blog_item.html" with post=related image="true" TRUNCWORDS_COUNT=TRUNCWORDS_COUNT %}
-                                        {% endfor %}
+
+    <!-- ##### Blog Content Area Start ##### -->
+    <section class="blog-content-area section-padding-0-100">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <!-- Blog Posts Area -->
+                <div class="col-12 col-md-8">
+                    <p class="blog-back"><a class="btn alazea-btn mt-15" href="{% url 'djangocms_blog:posts-latest' %}">{% trans "Back" %}</a></p>
+                    <div class="blog-posts-area">
+
+                        <!-- Post Details Area -->
+                        <div class="single-post-details-area">
+                            <div class="post-content">
+                                <h4 class="post-title">{% render_model post "title" %}</h4>
+                                <div class="post-meta mb-30">
+                                    <a href="#"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ post.date_published|date:"DATE_FORMAT" }}</a>
+                                    <a href="#"><i class="fa fa-user" aria-hidden="true"></i> {% if post.author.get_full_name %}{{ post.author.get_full_name }}{% else %}{{ post.author }}{% endif %}</a>
+                                </div>
+                                <div class="post-thumbnail mb-30">
+                                    {% thumbnail post.main_image post.full_image_options.size crop=post.full_image_options.crop upscale=post.full_image_options.upscale subject_location=post.main_image.subject_location  as thumb %}
+                                    <img src="{{ thumb.url }}" alt="{{ post.main_image.default_alt_text }}" width="{{ thumb.width }}" height="{{ thumb.height }}" />
+                                </div>
+                                <p>
+                                       {{ post.abstract }}
+                                </p>
+                                <div class="row mb-30">
+                                    <div class="col-lg-7">
+                                        <h4 class="post-title">{% get_edit_content_blog request post.id 'blog_header_1' 'desc' 'Header' %}</h4>
+                                        <p>{% get_edit_content_blog request post.id 'blog_header_p_1' 'desc' 'Please edit this paragraph' %}</p>
+                                        <p>{% get_edit_content_blog request post.id 'blog_header_p_2' 'desc' 'Please edit this paragraph' %}</p>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        {% get_edit_content_blog request post.id 'blog_header_image_1' 'image' '<img src="/media/img/bg-img/36.jpg" alt="">' %}
                                     </div>
                                 </div>
-                            </section>
-                            {% endif %}
-                        </article>
+                                <p>{% get_edit_content_blog request post.id 'blog_header_p_3' 'desc' 'Please edit this paragraph' %}</p>
+                                <blockquote>
+                                    <div class="blockquote-text">
+                                        <h5>“{% get_edit_content_blog request post.id 'blog_header_quote_1' 'desc' 'Please edit this Quote' %}”</h5>
+                                        <h5>{% get_edit_content_blog request post.id  'blog_header_quote_p_1' 'desc' 'Please edit this Name' %}</h5>
+                                    </div>
+                                </blockquote>
+                                <h4>{% get_edit_content_blog request post.id 'blog_header_2' 'desc' 'Header 2' %}</h4>
+                                <p>{% get_edit_content_blog request post.id 'blog_header_2_p_1' 'desc' 'Edit this Paragraph' %}</p>
+                                <p>{% get_edit_content_blog request post.id 'blog_header_2_p_2' 'desc' 'Edit this Paragraph' %}</p>
+                            </div>
+                        </div>
+
+                        <!-- Comment Area Start -->
+                        <div class="comment_area clearfix">
+<!--                            <h4 class="headline">2 Comments</h4>-->
+
+<!--                            <ol>-->
+<!--                                &lt;!&ndash; Single Comment Area &ndash;&gt;-->
+<!--                                <li class="single_comment_area">-->
+<!--                                    <div class="comment-wrapper d-flex">-->
+<!--                                        &lt;!&ndash; Comment Meta &ndash;&gt;-->
+<!--                                        <div class="comment-author">-->
+<!--                                            <img src="img/bg-img/37.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; Comment Content &ndash;&gt;-->
+<!--                                        <div class="comment-content">-->
+<!--                                            <div class="d-flex align-items-center justify-content-between">-->
+<!--                                                <h5>Simona Halep</h5>-->
+<!--                                                <span class="comment-date">09:00 AM,  20 Jun 2018</span>-->
+<!--                                            </div>-->
+<!--                                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetu adipisci velit, sed quia non numquam eius modi</p>-->
+<!--                                            <a class="active" href="#">Reply</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <ol class="children">-->
+<!--                                        <li class="single_comment_area">-->
+<!--                                            <div class="comment-wrapper d-flex">-->
+<!--                                                &lt;!&ndash; Comment Meta &ndash;&gt;-->
+<!--                                                <div class="comment-author">-->
+<!--                                                    <img src="img/bg-img/38.jpg" alt="">-->
+<!--                                                </div>-->
+<!--                                                &lt;!&ndash; Comment Content &ndash;&gt;-->
+<!--                                                <div class="comment-content">-->
+<!--                                                    <div class="d-flex align-items-center justify-content-between">-->
+<!--                                                        <h5>Rafael Nadal</h5>-->
+<!--                                                        <span class="comment-date">09:30 AM,  20 Jun 2018</span>-->
+<!--                                                    </div>-->
+<!--                                                    <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetu adipisci velit, sed quia non numquam eius modi</p>-->
+<!--                                                    <a class="active" href="#">Reply</a>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                    </ol>-->
+<!--                                </li>-->
+<!--                                <li class="single_comment_area">-->
+<!--                                    <div class="comment-wrapper d-flex">-->
+<!--                                        &lt;!&ndash; Comment Meta &ndash;&gt;-->
+<!--                                        <div class="comment-author">-->
+<!--                                            <img src="img/bg-img/39.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash; Comment Content &ndash;&gt;-->
+<!--                                        <div class="comment-content">-->
+<!--                                            <div class="d-flex align-items-center justify-content-between">-->
+<!--                                                <h5>Maria Sharapova</h5>-->
+<!--                                                <span class="comment-date">02:20 PM,  20 Jun 2018</span>-->
+<!--                                            </div>-->
+<!--                                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetu adipisci velit, sed quia non numquam eius modi</p>-->
+<!--                                            <a class="active" href="#">Reply</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                            </ol>-->
+                        </div>
+
+                        <!-- Leave A Comment -->
+<!--                        <div class="leave-comment-area clearfix">-->
+<!--                            <div class="comment-form">-->
+<!--                                <h4 class="headline">Leave A Comment</h4>-->
+
+<!--                                <div class="contact-form-area">-->
+<!--                                    &lt;!&ndash; Comment Form &ndash;&gt;-->
+<!--                                    <form action="#" method="post">-->
+<!--                                        <div class="row">-->
+<!--                                            <div class="col-12 col-md-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <input type="text" class="form-control" id="contact-name" placeholder="Name">-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-12 col-md-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <input type="email" class="form-control" id="contact-email" placeholder="Email">-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-12">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <textarea class="form-control" name="message" id="message" cols="30" rows="10" placeholder="Comment"></textarea>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-12">-->
+<!--                                                <button type="submit" class="btn alazea-btn">Post Comment</button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+                    </div>
+                </div>
+
+                <!-- Blog Sidebar Area -->
+                <div class="col-12 col-sm-9 col-md-4">
+                    <div class="post-sidebar-area">
+
+                        <!-- ##### Single Widget Area ##### -->
+                        <div class="single-widget-area">
+                            <form action="#" method="get" class="search-form">
+                                <input type="search" name="search" id="widgetSearch" placeholder="Search...">
+                                <button type="submit"><i class="icon_search"></i></button>
+                            </form>
+                        </div>
+
+                        <!-- ##### Single Widget Area ##### -->
+                        <div class="single-widget-area">
+                            <!-- Author Widget -->
+                            <div class="author-widget">
+                                <div class="author-thumb-name d-flex align-items-center">
+                                    <div class="author-thumb">
+                                        <img src="{{ MEDIA_URL }}{{ post.author.profile.avatar }}" alt="">
+                                    </div>
+                                    <div class="author-name">
+                                        <h5>{{ post.author.first_name }}{{ post.author.last_name }}</h5>
+                                        <p>Editor</p>
+                                    </div>
+                                </div>
+                                <p>{{ post.author.profile.bio }}</p>
+                                <div class="social-info">
+<!--                                    <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>-->
+<!--                                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>-->
+<!--                                    <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>-->
+<!--                                    <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ##### Single Widget Area ##### -->
+                        <div class="single-widget-area">
+                            <!-- Title -->
+                            <div class="widget-title">
+                                <h4>BEST SELLER</h4>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-                <p class="blog-back"><a href="{% url 'djangocms_blog:posts-latest' %}">{% trans "Back" %}</a></p>
+
+
+    <section class="alazea-blog-area mb-100">
+        <div class="container">
+            <div class="row">
+<p class="blog-back btn alazea-btn mt-15"><a href="{% url 'djangocms_blog:posts-latest' %}">{% trans "Back" %}</a></p>
+<!--                        <article id="post-{{ post.slug }}" class="post-item post-detail">-->
+<!--                            <header>-->
+<!--                                <h2>{% render_model post "title" %}</h2>-->
+<!--                                {% if post.subtitle %}-->
+<!--                                    <h3>{% render_model post "subtitle" %}</h3>-->
+<!--                                {% endif %}-->
+<!--                                {% block blog_meta %}-->
+<!--                                    {% include "djangocms_blog/includes/blog_meta.html" %}-->
+<!--                                {% endblock %}-->
+<!--                            </header>-->
+<!--                            {% if not post.main_image_id %}-->
+<!--                                <div class="blog-visual">{% render_placeholder post.media %}</div>-->
+<!--                            {% else %}-->
+<!--                            <div class="blog-visual">-->
+<!--                                {% thumbnail post.main_image post.full_image_options.size crop=post.full_image_options.crop upscale=post.full_image_options.upscale subject_location=post.main_image.subject_location  as thumb %}-->
+<!--                                <img src="{{ thumb.url }}" alt="{{ post.main_image.default_alt_text }}" width="{{ thumb.width }}" height="{{ thumb.height }}" />-->
+<!--                            </div>-->
+<!--                            {% endif %}-->
+<!--                            {% endspaceless %}-->
+<!--                            {% if post.app_config.use_placeholder %}-->
+<!--                                <div class="blog-content">{% render_placeholder post.content %}</div>-->
+<!--                            {% else %}-->
+<!--                                <div class="blog-content">{% render_model post "post_text" "post_text" "" "safe" %}</div>-->
+<!--                            {% endif %}-->
+<!--                            {% if view.liveblog_enabled %}-->
+<!--                                {% include "liveblog/includes/post_detail.html" %}-->
+<!--                            {% endif %}-->
+<!--                            {% if post.related.exists %}-->
+<!--                            <section class="alazea-blog-area mb-100">-->
+<!--                                <div class="container">-->
+<!--                                    <div class="row">-->
+<!--                                        {% for related in post.related.all %}-->
+<!--                                            {% include "djangocms_blog/includes/blog_item.html" with post=related image="true" TRUNCWORDS_COUNT=TRUNCWORDS_COUNT %}-->
+<!--                                        {% endfor %}-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </section>-->
+<!--                            {% endif %}-->
+<!--                        </article>-->
+            </div>
+        </div>
+    </section>
+
 
 {% endblock content_blog %}

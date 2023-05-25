@@ -1,0 +1,163 @@
+{% load product_content %}
+<section class="shop-page section-padding-0-100">
+    <div class="container">
+        <div class="row">
+            <!-- Shop Sorting Data -->
+            <div class="col-12">
+                <div class="shop-sorting-data d-flex flex-wrap align-items-center justify-content-between">
+                    <!-- Shop Page Count -->
+                    <div class="shop-page-count">
+                        <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
+                    </div>
+                    <!-- Search by Terms -->
+                    <div class="search_by_terms">
+                        <form action="#" method="post" class="form-inline">
+                            <select class="custom-select widget-title">
+                              <option selected>Short by Popularity</option>
+                              <option value="1">Short by Newest</option>
+                              <option value="2">Short by Sales</option>
+                              <option value="3">Short by Ratings</option>
+                            </select>
+                            <select class="custom-select widget-title">
+                              <option selected>Show: 9</option>
+                              <option value="1">12</option>
+                              <option value="2">18</option>
+                              <option value="3">24</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Area -->
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="shop-sidebar-area">
+
+                    <!-- Shop Widget -->
+                    <div class="shop-widget price mb-50">
+                        <h4 class="widget-title">Prices</h4>
+                        <div class="widget-desc">
+                            <div class="slider-range">
+                                <div data-min="100" data-max="300" data-unit="R" class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" data-value-min="100" data-value-max="300" data-label-result="Price:">
+                                    <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
+                                    <span class="ui-slider-handle ui-state-default ui-corner-all first-handle" tabindex="0"></span>
+                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                                </div>
+                                <div class="range-price">Price: R100 - R300</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shop Widget -->
+                    <div class="shop-widget catagory mb-50">
+                        <h4 class="widget-title">Categories</h4>
+                        <div class="widget-desc">
+
+
+                            {% get_category_search_products %}
+
+
+                        </div>
+                    </div>
+
+                    <!-- Shop Widget -->
+                    <div class="shop-widget sort-by mb-50">
+                        <h4 class="widget-title">Sort by</h4>
+                        <div class="widget-desc">
+                            <!-- Single Checkbox -->
+                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck7">
+                                <label class="custom-control-label" for="customCheck7">New arrivals</label>
+                            </div>
+                            <!-- Single Checkbox -->
+                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck8">
+                                <label class="custom-control-label" for="customCheck8">Alphabetically, A-Z</label>
+                            </div>
+                            <!-- Single Checkbox -->
+                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck9">
+                                <label class="custom-control-label" for="customCheck9">Alphabetically, Z-A</label>
+                            </div>
+                            <!-- Single Checkbox -->
+                            <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
+                                <input type="checkbox" class="custom-control-input" id="customCheck10">
+                                <label class="custom-control-label" for="customCheck10">Price: low to high</label>
+                            </div>
+                            <!-- Single Checkbox -->
+                            <div class="custom-control custom-checkbox d-flex align-items-center">
+                                <input type="checkbox" class="custom-control-input" id="customCheck11">
+                                <label class="custom-control-label" for="customCheck11">Price: high to low</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shop Widget -->
+                    <div class="shop-widget best-seller mb-50">
+
+                    </div>
+                </div>
+            </div>
+
+                <!-- All Products Area -->
+                <div class="col-12 col-md-8 col-lg-9">
+                    <div class="shop-products-area">
+                        <div class="row">
+
+
+                        {% for product in products %}
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="single-product-area mb-50">
+                                    <form action="/orders/" method="post">
+                                    <!-- Product Image -->
+                                    <div class="product-img">
+                                        <a href="{{ MEDIA_URL }}{{ product.image }}"><img class="img-fluid" src="{{ MEDIA_URL }}{{ product.image }}" alt="{{ product.desc}}"></a>
+                                        <div class="product-meta d-flex">
+                                            <a href="{{ MEDIA_URL }}{{ product.image }}" class="wishlist-btn"><i class="icon_heart_alt"></i></a>
+                                            <a href="#1" onclick="$('form').submit();return false;" class="add-to-cart-btn">Add to cart</a>
+                                            <a href="{{ MEDIA_URL }}{{ product.image }}" class="compare-btn"><i class="arrow_left-right_alt"></i></a>
+                                        </div>
+                                    </div>
+                                    <!-- Product Info -->
+                                    <div class="product-info mt-15 text-center">
+                                        <a href="/product/{{ product.name|slugify }}/">
+                                            <p>{{ product.name }}</p>
+                                        </a>
+                                        <p>{{ product.category }}</p>
+                                        <p>{{ product.quantity }}</p>
+                                        <h6>R {{ product.price }}</h6>
+                                        <h6>{{ product.seller.first_name }} {{ product.seller.last_name }}</h6>
+                                    </div>
+                                    {% csrf_token %}
+                                    <input type="hidden" id="product_pk" name="product_pk" value="{{ product.id }}" />
+
+                                </form>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                            </div>
+                        </div>
+
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-angle-left"></i></a></li>
+                                {% endif %}
+
+                                {% if page_obj.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><i class="fa fa-angle-right"></i></a></li>
+                                {% endif %}
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

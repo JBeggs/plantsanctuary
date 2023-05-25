@@ -1,12 +1,13 @@
 from cms.app_base import CMSApp
 from cms.models import Page
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from os.path import exists
 from django.conf import settings
 
-from api.models import Content
+from api.models import Content, BlogContent
 from products.models import *
 
 
@@ -94,19 +95,38 @@ def build_html(request):
 
 
 @login_required
-def update(request):
+def update_content(request):
 
     if request.POST:
+
+        image = {
+            key: value for key, value in request.POST.items()
+            if 'textarea_editor_'.lower() in key.lower()
+        }
+        name = {
+            key: value for key, value in request.POST.items()
+            if 'image_content_editor_'.lower() in key.lower()
+        }
+        desc = ''
+        if bool(image):
+            desc = image[next(iter(image))]
+
+        if bool(name):
+            name = next(iter(name)).replace('image_content_editor_', '')
+        else:
+            name = next(iter(image)).replace('textarea_editor_', '')
+
+        content = Content.objects.filter(name=name).first()
+
         for key, in_memory_file in request.FILES.items():
-            partial_key = 'image_content_editor_'
-            name = key.replace(partial_key, '')
-            content = Content.objects.filter(name=name).first()
             content.image = in_memory_file
+
+        content.desc = desc
+        if request.user.is_staff:
             content.save()
 
-
     else:
-        partial_key = 'editor_'
+        partial_key = 'textarea_editor_'
 
         matching_items = {
             key: value for key, value in request.GET.items()
@@ -117,18 +137,75 @@ def update(request):
             name = element.replace(partial_key, "")
             element_content = Content.objects.filter(name=name).first()
             element_content.desc = content
-            element_content.save()
+            if request.user.is_staff:
+                element_content.save()
 
     return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required
-def delete(request, id):
+def update_blog_content(request):
 
-    # pk = request.GET.get('pk', '')
+    if request.POST:
+        blog_id = request.GET.get('blog_id', None)
+        image = {
+            key: value for key, value in request.POST.items()
+            if 'textarea_editor_'.lower() in key.lower()
+        }
+        name = {
+            key: value for key, value in request.POST.items()
+            if 'image_content_editor_'.lower() in key.lower()
+        }
+        desc = ''
+        if bool(image):
+            desc = image[next(iter(image))]
+
+        if bool(name):
+            name = next(iter(name)).replace('image_content_editor_', '')
+        else:
+            name = next(iter(image)).replace('textarea_editor_', '')
+
+        content = BlogContent.objects.filter(
+            Q(name=name) &
+            Q(blog_id=blog_id)
+        ).first()
+
+        for key, in_memory_file in request.FILES.items():
+            content.image = in_memory_file
+
+        content.desc = desc
+        if request.user == content.author:
+            content.save()
+
+    else:
+
+        blog_id = request.GET.get('blog_id', None)
+        partial_key = 'textarea_editor_'
+
+        matching_items = {
+            key: value for key, value in request.GET.items()
+            if partial_key.lower() in key.lower()
+        }
+
+        for element, content in matching_items.items():
+            name = element.replace(partial_key, "")
+            element_content = BlogContent.objects.filter(
+                Q(name=name) &
+                Q(blog_id=blog_id)
+            ).first()
+            element_content.desc = content
+            if request.user == element_content.author:
+                element_content.save()
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def delete(request, content_id):
 
     if id:
-        delete = Content.objects.filter(pk=id).first()
-        delete.delete()
+        delete = Content.objects.filter(pk=content_id).first()
+        if request.user == delete.author:
+            delete.delete()
 
     return redirect(request.META.get('HTTP_REFERER'))

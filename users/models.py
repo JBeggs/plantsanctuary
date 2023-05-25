@@ -49,6 +49,17 @@ class Address(models.Model):
     SHIPPING = 'S'
 
     ADDRESS_CHOICES = ((BILLING, _('billing')), (SHIPPING, _('shipping')))
+    PROVINCE_CHOICES = (
+        ('------------', 'Please Select'),
+        ('Western Cape', 'Western Cape'),
+        ('Eastern Cape', 'Eastern Cape'),
+        ('Northern Cape', 'Northern Cape'),
+        ('North West', 'North West'),
+        ('Free State', 'Free State'),
+        ('Kwazulu Natal', 'Kwazulu Natal'),
+        ('Gauteng', 'Gauteng'),
+        ('Limpopo Mpumlanga', 'Limpopo Mpumlanga')
+    )
 
     user = models.ForeignKey(
         User, related_name='addresses', on_delete=models.CASCADE)
@@ -59,6 +70,7 @@ class Address(models.Model):
     street_address = models.CharField(max_length=100)
     apartment_address = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20, blank=True)
+    province = models.CharField(max_length=28, choices=PROVINCE_CHOICES, default='------------')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
