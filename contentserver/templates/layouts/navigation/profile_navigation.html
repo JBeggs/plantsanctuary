@@ -1,5 +1,4 @@
 {% load security_tags user_cart site_content %}
-
 <div class="preloader d-flex align-items-center justify-content-center">
         <div class="preloader-circle"></div>
         <div class="preloader-img">
@@ -39,8 +38,8 @@
 <!--                                    </div>-->
 <!--                                </div>-->
                                 <!-- Login -->
-                                <div class="login" style="margin-right:20px;">
-                                    {% if request.user.is_active %}
+                                <div class="login">
+                                     {% if request.user.is_active %}
                                         <a href="/accounts/logout/"><i class="fa fa-user" aria-hidden="true"></i> <span>Logout</span></a>
                                         <a href="/user/"><i class="fa fa-address-card" aria-hidden="true"></i> <span>Profile</span></a>
                                     {% else %}
@@ -66,7 +65,7 @@
                     <nav class="classy-navbar justify-content-between" id="alazeaNav">
 
                         <!-- Nav Brand -->
-                        <a href="/" class="nav-brand"><h2 style="color:white;">{% get_edit_content request 'home_navigation_header_main' 'desc' 'The Plant Sanctuary' %}</h2></a>
+                        <a href="/" class="nav-brand"><h2 style="color:white;">{% get_edit_content request 'profile_navigation_header_main' 'desc' 'The Plant Sanctuary' %}</h2></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -99,20 +98,37 @@
 <!--                                                    <li><a href="/checkout/">Checkout</a></li>-->
 <!--                                                </ul>-->
 <!--                                            </li>-->
+<!--                                            <li><a href="/portfolio/">Portfolio</a>-->
+<!--                                                <ul class="dropdown">-->
+<!--                                                    <li><a href="/portfolio/">Portfolio</a></li>-->
+<!--                                                    <li><a href="/single-portfolio/">Portfolio Details</a></li>-->
+<!--                                                </ul>-->
+<!--                                            </li>-->
 <!--                                            <li><a href="/blog/">Blog</a>-->
 <!--                                                <ul class="dropdown">-->
 <!--                                                    <li><a href="/blog/">Blog</a></li>-->
 <!--                                                    <li><a href="/single-post/">Blog Details</a></li>-->
 <!--                                                </ul>-->
 <!--                                            </li>-->
-<!--                                            <li><a href="/contact/">Contact</a></li>-->
+<!--                                            <li><a href="contact/">Contact</a></li>-->
 <!--                                        </ul>-->
 <!--                                    </li>-->
 <!--                                    <li><a href="/shop/">Shop</a></li>-->
 <!--                                    <li><a href="/portfolio/">Portfolio</a></li>-->
                                     <li><a href="/contact/">Contact</a></li>
                                 </ul>
-
+                                <div class="login">
+                                    {% if request.user.is_active %}
+                                        <a href="/accounts/logout/"><i class="fa fa-user" aria-hidden="true"></i> <span>Logout</span></a>
+                                        <a href="/user/"><i class="fa fa-address-card" aria-hidden="true"></i> <span>Profile</span></a>
+                                    {% else %}
+                                        <a href="/accounts/login/"><i class="fa fa-user" aria-hidden="true"></i> <span>Login</span></a>
+                                    {% endif %}
+                                </div>
+                                <!-- Cart -->
+                                <div class="cart">
+                                    <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Cart <span class="cart-quantity">{% cart_quantity request %}</span></span></a>
+                                </div>
                                 <!-- Search Icon -->
                                 <div id="searchIcon">
                                     <i class="fa fa-search" aria-hidden="true"></i>

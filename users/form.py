@@ -19,6 +19,14 @@ class PhoneNumberForm(forms.ModelForm):
         model = PhoneNumber
         exclude = ('user', 'security_code', 'is_verified', 'sent',)
 
+    def __init__(self, *args, **kwargs):
+        super(PhoneNumberForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if visible.name == 'default':
+                visible.field.widget.attrs['class'] = 'custom-control-input'
+            else:
+                visible.field.widget.attrs['class'] = 'form-control'
+
 
 class ProfileForm(forms.ModelForm):
     # specify the name of model to use
@@ -26,9 +34,22 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         exclude = ('user',)
 
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
 
 class AddressForm(forms.ModelForm):
     # specify the name of model to use
     class Meta:
         model = Address
         exclude = ('user',)
+
+    def __init__(self, *args, **kwargs):
+        super(AddressForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if visible.name == 'default':
+                visible.field.widget.attrs['class'] = 'custom-control-input'
+            else:
+                visible.field.widget.attrs['class'] = 'form-control'
