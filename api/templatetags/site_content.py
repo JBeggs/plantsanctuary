@@ -171,13 +171,14 @@ def get_edit_content_blog(request, blog_id, name, _type, default_text, *args, **
         Q(blog_id=blog_id)
     ).first()
 
-    if not content and request.user.is_staff and request.user == content.author:
-        content = BlogContent()
-        content.author = request.user
-        content.blog = Post.objects.get(id=blog_id)
-        content.name = name
-        content.desc = default_text
-        content.save()
+    if not content and request.user.is_staff:
+        if request.user == content.author:
+            content = BlogContent()
+            content.author = request.user
+            content.blog = Post.objects.get(id=blog_id)
+            content.name = name
+            content.desc = default_text
+            content.save()
 
     if editor.is_staff and request.user == content.author:
 
