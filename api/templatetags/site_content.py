@@ -170,17 +170,18 @@ def get_edit_content_blog(request, blog_id, name, _type, default_text, *args, **
         Q(name=name) &
         Q(blog_id=blog_id)
     ).first()
-
+    post = Post.objects.get(id=blog_id)
     if not content and request.user.is_staff:
-        if request.user == content.author:
+
+        if request.user == post.author:
             content = BlogContent()
             content.author = request.user
-            content.blog = Post.objects.get(id=blog_id)
+            content.blog = post
             content.name = name
             content.desc = default_text
             content.save()
 
-    if editor.is_staff and request.user == content.author:
+    if editor.is_staff and request.user == post.author:
 
         if _type == 'desc':
             return get_edit_textarea(name, content, 'update_blog_content', blog_id=blog_id)
