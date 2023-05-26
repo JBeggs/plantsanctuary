@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 
 import os
+from importlib._common import _
+
 gettext = lambda s: s
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -372,4 +374,16 @@ PARLER_LANGUAGES = {
             #'fr'
         ],
     }
+}
+
+BLOG_AVAILABLE_PERMALINK_STYLES = (
+    ('full_date', 'Full date'),
+    ('short_date', 'Year /  Month'),
+    ('category', 'Category'),
+)
+
+BLOG_PERMALINK_URLS = {
+    "full_date": "<int:year>/<int:month>/<int:day>/<str:slug>/",
+    "short_date": "<int:year>/<int:month>/<str:slug>/",
+    "category": "<str:category>/<str:slug>/",
 }
