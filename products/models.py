@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
+from api.models import create_thumbnail
 
 User = get_user_model()
 
@@ -12,6 +12,10 @@ def category_image_path(instance, filename):
 
 def product_image_path(instance, filename):
     return f'product/images/{instance.name}/{filename}'
+
+
+def product_image_thumb_path(instance, filename):
+    return f'product/thumb/{instance.name}/{filename}'
 
 
 class ProductCategory(models.Model):
@@ -41,6 +45,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     desc = models.TextField(_('Description'), blank=True)
     image = models.ImageField(upload_to=product_image_path, blank=True)
+    thumbnail = models.ImageField(upload_to=product_image_thumb_path, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.IntegerField(default=1)
     barcode = models.CharField(max_length=200, blank=True)
@@ -54,3 +59,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self):
+        create_thumbnail(self.image, self.thumbnail, 200, 200)
+        super(Product, self).save()

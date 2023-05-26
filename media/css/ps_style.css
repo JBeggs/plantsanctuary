@@ -2642,3 +2642,14 @@ img {
 /* ======= The End ======= */
 
 /*# sourceMappingURL=style.css.map */
+
+        .crop {
+            width: 120px;
+            height: 80px;
+            overflow: hidden;
+        }
+        .crop img {
+            width: 120px;
+            height: 80px;
+            margin: -30px 0 0 -10px;
+        }

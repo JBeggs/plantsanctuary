@@ -48,16 +48,20 @@ def get_edit_textarea(name, content, form_action, blog_id):
     return mark_safe(edit_html.replace("{{", "{").replace("}}", "}"))
 
 
-def get_edit_image(request, name, default_text, content, form_action, blog_id):
+def get_edit_image(request, name, default_text, content, form_action, _type, blog_id):
     token = get_token(request)
     blog_input = f'<input type="hidden" name="blog_id" value="{blog_id}">'
     image_class = ''
     if 'class' in default_text:
         image_class = default_text.split('class=')[1].split('"')[1]
-
-    if content.image:
-        image = f'<img class="{image_class}" src="/media/{content.image}" />'
-    else:
+    image = False
+    if _type == 'image':
+        if content.image:
+            image = f'<img src="/media/{content.image}"  />'
+    elif _type == 'thumb':
+        if content.thumbnail:
+            image = f'<img src="/media/{content.thumbnail}"  />'
+    if not image:
         image = content.desc
     edit_image = '<img src="/media/img/edit.png" style="width:10px;height:10px;position:relative;background-color:white;" />'
     edit_html = f"""{image}<div onclick='edit_data_{name}();' class='content_text_{name}'>{edit_image}</div>
@@ -102,28 +106,24 @@ def get_edit_content(request, name, _type, default_text, *args, **kwargs):
 
         if _type == 'desc':
             return get_edit_textarea(name, content, 'update_content', blog_id=None)
-        if _type == 'image':
-            return get_edit_image(request, name, default_text, content, 'update_content', blog_id=None)
+        if _type in ['image', 'thumb']:
+            return get_edit_image(request, name, default_text, content, 'update_content', _type, blog_id=None)
 
     if not content:
         return ''
 
     if _type == 'desc':
         return mark_safe(content.desc)
-
+    image = False
     if _type == 'image':
         if content.image:
-            image_class = ''
-            if 'class' in default_text:
-                image_class = default_text.split('class=')[1].split('"')[1]
-            image_desc = content.desc
-            if "<src" in image_desc:
-                image_desc = ''
-
-            image = f'<img class="{image_class}" src="/media/{content.image}"  />'
-        else:
-            image = content.desc
-        return mark_safe(image)
+            image = f'<img src="/media/{content.image}"  />'
+    elif _type == 'thumb':
+        if content.thumbnail:
+            image = f'<img src="/media/{content.thumbnail}"  />'
+    if not image:
+        image = content.desc
+    return mark_safe(image)
 
 
 @register.simple_tag
@@ -189,8 +189,8 @@ def get_edit_content_blog(request, blog_id, name, _type, default_text, *args, **
 
         if _type == 'desc':
             return get_edit_textarea(name, content, 'update_blog_content', blog_id=blog_id)
-        if _type == 'image':
-            return get_edit_image(request, name, default_text, content, 'update_blog_content', blog_id=blog_id)
+        if _type in ['image', 'thumb']:
+            return get_edit_image(request, name, default_text, content, 'update_content', _type, blog_id=blog_id)
 
     if not content:
         return ''
@@ -198,18 +198,16 @@ def get_edit_content_blog(request, blog_id, name, _type, default_text, *args, **
     if _type == 'desc':
         return mark_safe(content.desc)
 
+    image = False
     if _type == 'image':
         if content.image:
-            image_class = ''
-            if 'class' in default_text:
-                image_class = default_text.split('class=')[1].split('"')[1]
-            image_desc = content.desc
-            if "<src" in image_desc:
-                image_desc = ''
-            image = f'<img class="{image_class}" src="/media/{content.image}"  />'
-        else:
-            image = content.desc
-        return mark_safe(image)
+            image = f'<img src="/media/{content.image}"  />'
+    elif _type == 'thumb':
+        if content.thumbnail:
+            image = f'<img src="/media/{content.thumbnail}"  />'
+    if not image:
+        image = content.desc
+    return mark_safe(image)
 
 
 @register.simple_tag

@@ -22,9 +22,15 @@ def get_product_list_latest(request, *args, **kwargs):
 
     for product in products:
         html += '<div class="single-best-seller-product d-flex align-items-center">'
+
+        if product.thumbnail:
+            image = product.thumbnail
+        else:
+            image = product.image
+
         html += '<div class="product-thumbnail">'
         html += f'  <a href="/product/{product.id}">' \
-                f'      <img src="/media/{product.image}" alt="{product.desc}" title="{product.desc}">' \
+                f'      <img src="/media/{image}" alt="{product.desc}" title="{product.desc}">' \
                 f'  </a>' \
                 f'</div>'
         html += '<div class="product-info">'

@@ -9,6 +9,7 @@ from django.conf import settings
 
 from api.models import Content, BlogContent
 from products.models import *
+from PIL import Image
 
 
 def site_server(request, *args, **kwargs):
