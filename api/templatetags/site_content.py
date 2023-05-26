@@ -270,18 +270,17 @@ def search_results(request, products, blog_articles,  blog_content):
 
         if content.blog.id not in article_list:
 
-            if content.thumbnail:
-                image_url = content.thumbnail
+            if content.blog.main_image.url:
+                image_url = content.blog.main_image.url
             else:
-                image_url = content.image
+                image_url = content.blog.main_image
 
             results.append({
-                'name': content.__str__(),
-                'desc': content.desc,
-                'image_url': '/media/' + str(image_url),
+                'name': content.blog.__str__(),
+                'desc': content.blog.abstract,
+                'image_url': image_url,
                 'link': 'http',
             })
-
     search_paginator = Paginator(results, 10)  # Show 25 contacts per page.
     search_page_number = request.GET.get("page")
     search_obj = search_paginator.get_page(search_page_number)
