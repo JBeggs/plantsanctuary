@@ -1,11 +1,14 @@
 from cms.app_base import CMSApp
 from cms.models import Page
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from os.path import exists
 from django.conf import settings
+from django.views.generic import TemplateView
+from djangocms_blog.models import Post
 
 from api.models import Content, BlogContent
 from products.models import *
@@ -210,3 +213,33 @@ def delete(request, content_id):
             delete.delete()
 
     return redirect(request.META.get('HTTP_REFERER'))
+
+
+class SearchView(TemplateView):
+
+    template_name = 'search.html'
+
+    def post(self, request, *args, **kwargs):
+
+        post_data = request.POST or None
+        search_term = post_data.get('search', '')
+        products = Product.objects.filter(Q(name__icontains=search_term) | Q(desc__icontains=search_term))
+        blog_articles = Post.objects.filter(
+            Q(translations__title__icontains=search_term) |
+            Q(translations__subtitle__icontains=search_term) |
+            Q(translations__abstract__icontains=search_term)
+        )
+        blog_content = BlogContent.objects.filter(Q(name__icontains=search_term) | Q(desc__icontains=search_term))
+
+        context = {
+            'blog_articles': blog_articles,
+            'products': products,
+            'blog_content': blog_content,
+            'search_term': search_term
+        }
+
+        return self.render_to_response(context)
+
+    def get(self, request, *args, **kwargs):
+
+        return self.post(request, *args, **kwargs)

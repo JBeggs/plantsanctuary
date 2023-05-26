@@ -1,0 +1,15 @@
+    {% if messages %}
+    <section class="section-padding-100-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <ul class="messages section-heading">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }} "{% endif %}><h2 style="color:#70c745;">{{ message }}</h2></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    </section>
+    {% endif %}

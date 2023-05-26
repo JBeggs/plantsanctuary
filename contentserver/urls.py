@@ -7,6 +7,7 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
+from api.views import SearchView
 from orders.views import OrderFormView, OrdersView
 from products.views import ProductsView
 from users.views import UserView
@@ -25,10 +26,8 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls'))
 ]
 
-
-
 urlpatterns += (
-
+    path('search/', SearchView.as_view(), name="search"),
     path('shop/', ProductsView.as_view(), name="products"),
     path('order/', OrderFormView.as_view(), name="order"),
     path('orders/', OrdersView.as_view(), name="orders"),

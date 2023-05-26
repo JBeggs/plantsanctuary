@@ -7,7 +7,7 @@
 
     {% include 'layouts/navigation/profile_navigation.html' %}
     {% include 'layouts/main/profile/breadcrumbs.html' %}
-
+    {% include 'layouts/messages.html' %}
     <div class="container rounded bg-white">
         <div class="row">
 
@@ -28,6 +28,7 @@
                             {{ profile_form.avatar }}<br />
                             {{ profile_form.bio }}
                             {% if profile_form.errors %}
+                            <br />
                                {% for field in profile_form %}
                                    {% for error in field.errors %}
                                       <div class="alert alert-danger">
@@ -55,6 +56,7 @@
                         <div class="col-md-12"><label class="labels">Email</label><input name="email" id="id_email" type="text" class="form-control" placeholder="enter email address" value="{% if request.user.email %}{{ request.user.email }}{% endif %}"></div>
                     </div>
                         {% if profile_form.errors %}
+                        <br />
                            {% for field in profile_form %}
                                {% for error in field.errors %}
                                   <div class="alert alert-danger">
@@ -68,6 +70,7 @@
                    <form action="" method="POST">{% csrf_token %}
                     <div class="col-md-6"><label class="labels">Mobile Number</label>{{ phonenumber_form.phone_number }}</div>
                         {% if phonenumber_form.errors %}
+                       <br />
                            {% for field in phonenumber_form %}
                                {% for error in field.errors %}
                                   <div class="alert alert-danger">

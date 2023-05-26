@@ -3,6 +3,7 @@ from django import forms
 
 # import GeeksModel from models.py
 from .models import User, PhoneNumber, Profile, Address
+from django.core.validators import validate_email
 
 
 # create a ModelForm
@@ -12,6 +13,16 @@ class UserForm(forms.ModelForm):
         model = User
         exclude = ('username', 'password', 'last_login', 'is_superuser', 'groups', 'user_permissions', 'is_staff', 'date_joined')
 
+    # def clean_email(self):
+    #     email = self.cleaned_data['email']
+    #
+    #     try:
+    #         validate_email(email)
+    #         return email
+    #     except:
+    #         self.add_error('email', 'Invalid email address')
+    #
+    #     return email
 
 class PhoneNumberForm(forms.ModelForm):
     # specify the name of model to use

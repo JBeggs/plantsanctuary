@@ -1,11 +1,12 @@
 from django import template
 from django.contrib.auth import get_user_model
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.middleware.csrf import get_token
 from django.utils.safestring import mark_safe
 from djangocms_blog.models import Post, BlogCategory
 from django.utils.text import slugify
 from api.models import Content, BlogContent
+from django.core.paginator import Paginator
 
 register = template.Library()
 User = get_user_model()
@@ -230,3 +231,59 @@ def get_category_drop_down_search():
     return mark_safe(html)
 
 
+@register.simple_tag
+def search_results(request, products, blog_articles,  blog_content):
+
+    results = []
+
+    for product in products:
+
+        if product.thumbnail:
+            image_url = product.thumbnail
+        else:
+            image_url = product.image
+
+        results.append({
+            'name': product.name,
+            'desc': product.desc,
+            'image_url': '/media/' + str(image_url),
+            'link': 'http',
+        })
+
+    article_list = []
+    for article in blog_articles:
+
+        article_list.append(article.id)
+        if article.main_image.url:
+            image_url = article.main_image.url
+        else:
+            image_url = article.main_image
+
+        results.append({
+            'name': article.__str__(),
+            'desc': article.abstract,
+            'image_url': image_url,
+            'link': 'http',
+        })
+
+    for content in blog_content:
+
+        if content.blog.id not in article_list:
+
+            if content.thumbnail:
+                image_url = content.thumbnail
+            else:
+                image_url = content.image
+
+            results.append({
+                'name': content.__str__(),
+                'desc': content.desc,
+                'image_url': '/media/' + str(image_url),
+                'link': 'http',
+            })
+
+    search_paginator = Paginator(results, 10)  # Show 25 contacts per page.
+    search_page_number = request.GET.get("page")
+    search_obj = search_paginator.get_page(search_page_number)
+
+    return search_obj

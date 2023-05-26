@@ -1,0 +1,9 @@
+<div class="search-form">
+    <form action="/search/" method="POST">
+        {% csrf_token %}
+        <input type="search" name="search" id="search" placeholder="Type keywords &amp; press enter...">
+        <button type="submit" class="d-none"></button>
+    </form>
+
+    <div class="closeIcon"><i class="fa fa-times" aria-hidden="true"></i></div>
+</div>

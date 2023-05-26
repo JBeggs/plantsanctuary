@@ -55,7 +55,11 @@ class ProductsView(TemplateView):
         paginator = Paginator(products, 10)  # Show 25 contacts per page.
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
-        return self.render_to_response({'products': products, 'page_obj': page_obj })
+        return self.render_to_response({
+            'products': products,
+            'page_obj': page_obj,
+            'paginator': paginator
+        })
 
     def get(self, request, *args, **kwargs):
 
