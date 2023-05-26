@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 
 import os
-from importlib._common import _
 
 gettext = lambda s: s
 
