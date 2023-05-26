@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.template.defaultfilters import truncatechars
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from api.models import create_thumbnail
 
@@ -63,3 +65,17 @@ class Product(models.Model):
     def save(self):
         create_thumbnail(self.image, self.thumbnail, 200, 200)
         super(Product, self).save()
+
+    @property
+    def short_description(self):
+        return truncatechars(self.desc, 60)
+
+    def image_tag(self):
+        from django.utils.html import escape
+        try:
+            return mark_safe(u'<img src="%s" />' % escape(self.thumbnail.url))
+        except:
+            try:
+                return mark_safe(u'<img style="height:200px;" src="%s" />' % escape(self.image.url))
+            except:
+                return ''

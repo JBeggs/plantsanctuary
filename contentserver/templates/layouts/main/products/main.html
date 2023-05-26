@@ -1,8 +1,11 @@
 {% load product_content %}
+{% load crispy_forms_tags %}
+
 <section class="shop-page section-padding-0-100">
     <div class="container">
         <div class="row">
             <!-- Shop Sorting Data -->
+
             <div class="col-12">
                 <div class="shop-sorting-data d-flex flex-wrap align-items-center justify-content-between">
                     <!-- Shop Page Count -->
@@ -11,7 +14,30 @@
                     </div>
                     <!-- Search by Terms -->
                     <div class="search_by_terms">
+
+                        {% if add_product.errors %}
+                        <br />
+                           {% for field in add_product %}
+                               {% for error in field.errors %}
+                                  <div class="alert alert-danger">
+                                       <strong>{{ error|escape }}</strong>
+                                  </div>
+                               {% endfor %}
+                           {% endfor %}
+                        {% endif %}
+
                         <form action="#" method="post" class="form-inline">
+                            {% if request.user.is_staff %}
+
+                            <p><a href="#1" onclick="add_product();" class="add-to-cart-btn">Add Product</a></p>
+                            <script>
+                                function add_product(){
+                                    $('#list_product').toggle();
+                                    $('#add_product').toggle();
+                                }
+                            </script>
+
+                            {% endif %}
                             <select class="custom-select widget-title">
                               <option selected>Short by Popularity</option>
                               <option value="1">Short by Newest</option>
@@ -30,7 +56,16 @@
             </div>
         </div>
 
-        <div class="row">
+
+        <div id="add_product" class="row" style="display:none;">
+            <div class="col-12">
+
+                {% crispy add_product %}
+
+            </div>
+        </div>
+
+        <div id="list_product" class="row">
             <!-- Sidebar Area -->
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="shop-sidebar-area">

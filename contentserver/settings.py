@@ -105,7 +105,9 @@ INSTALLED_APPS = [
     'djangocms_googlemap',
     'djangocms_video',
     'contentserver',
-    'rest_framework'
+    'rest_framework',
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 
@@ -386,3 +388,7 @@ BLOG_PERMALINK_URLS = {
     "short_date": "<int:year>/<int:month>/<str:slug>/",
     "category": "<str:category>/<str:slug>/",
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+FORM_RENDERER = 'django.forms.renderers.DjangoTemplates'

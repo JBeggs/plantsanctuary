@@ -122,3 +122,5 @@ webencodings==0.5.1
 wrapt==1.14.1
 djangocms-blog==2.0.0b2
 django_extensions
+django-crispy-forms
+crispy-bootstrap4

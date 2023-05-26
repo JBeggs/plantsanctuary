@@ -8,8 +8,19 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <!-- Section Heading -->
+
                 <div class="section-heading text-center">
+                    {% if request.user.is_staff %}
+
+                    <p><a target="_blank" href="/admin/djangocms_blog/post/add/" class="add-to-cart-btn">Add Blog</a></p>
+                    <script>
+                        function add_blog(){
+                            $("#myModal").modal("show");
+                            $('.modal-body').load('/admin/djangocms_blog/post/add/');
+                        }
+                    </script>
+
+                    {% endif %}
                     <h2>{% get_edit_content request 'blog_page_header_main' 'desc' 'LATEST NEWS' %}</h2>
                     <p>{% get_edit_content request 'blog_page_header_desciption' 'desc' 'The breaking news about Gardening &amp; House plants' %}</p>
                 </div>
@@ -19,73 +30,69 @@
 </section>
 
 
+<section class="alazea-blog-area mb-100">
+    <div class="container">
+        <div id="add_blog" class="row">
 
+        </div>
+        <div id="list_blog" class="row">
+            <div class="col-12 col-md-8">
+                <div class="row">
+                {% block blog_title %}
 
-    <!-- ##### Blog Area Start ##### -->
-    <section class="alazea-blog-area mb-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-8">
-                    <div class="row">
-                    {% block blog_title %}
+                {% endblock %}
+                {% for post in post_list %}
+                    {% include "blog_templates/includes/blog_item.html" with post=post image="true" TRUNCWORDS_COUNT=TRUNCWORDS_COUNT %}
+                {% empty %}
+                <p class="blog-empty">{% trans "No article found." %}</p>
+                {% endfor %}
 
-                    {% endblock %}
-                    {% for post in post_list %}
-                        {% include "blog_templates/includes/blog_item.html" with post=post image="true" TRUNCWORDS_COUNT=TRUNCWORDS_COUNT %}
-                    {% empty %}
-                    <p class="blog-empty">{% trans "No article found." %}</p>
-                    {% endfor %}
-
-                    {% if author or archive_date or tagged_entries %}
-                        <p class="blog-back"><a href="{% url 'djangocms_blog:posts-latest' %}">{% trans "Back" %}</a></p>
-                    {% endif %}
-                    </div>
-
-                    <div class="row">
-                    {% if is_paginated %}
-                    <nav class="{% firstof css_grid instance.css_grid %} pagination">
-                        {% if page_obj.has_previous %}
-                            <a href="?{{ view.page_kwarg }}={{ page_obj.previous_page_number }}">&laquo; {% trans "previous" %}</a>
-                        {% endif %}
-                        <span class="current">
-                            {% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ paginator.num_pages }}
-                        </span>
-                        {% if page_obj.has_next %}
-                            <li class="page-item"><a class="page-link" href="?{{ view.page_kwarg }}={{ page_obj.next_page_number }}"><i class="fa fa-angle-right"></i></a></li>
-                        {% endif %}
-                    </nav>
-                    {% endif %}
-                    </div>
+                {% if author or archive_date or tagged_entries %}
+                    <p class="blog-back"><a href="{% url 'djangocms_blog:posts-latest' %}">{% trans "Back" %}</a></p>
+                {% endif %}
                 </div>
 
-                <div class="col-12 col-md-4">
-                    <div class="post-sidebar-area">
+                <div class="row">
+                {% if is_paginated %}
+                <nav class="{% firstof css_grid instance.css_grid %} pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?{{ view.page_kwarg }}={{ page_obj.previous_page_number }}">&laquo; {% trans "previous" %}</a>
+                    {% endif %}
+                    <span class="current">
+                        {% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ paginator.num_pages }}
+                    </span>
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?{{ view.page_kwarg }}={{ page_obj.next_page_number }}"><i class="fa fa-angle-right"></i></a></li>
+                    {% endif %}
+                </nav>
+                {% endif %}
+                </div>
+            </div>
 
-                        <!-- ##### Single Widget Area ##### -->
-                        <div class="single-widget-area">
-                            {% get_category_drop_down_search %}
-                            <form action="#" method="get" class="search-form">
-                                <input type="search" name="search" id="widgetsearch" placeholder="Search...">
-                                <button type="submit"><i class="icon_search"></i></button>
-                            </form>
+            <div class="col-12 col-md-4">
+                <div class="post-sidebar-area">
+
+                    <div class="single-widget-area">
+                        {% get_category_drop_down_search %}
+                        <form action="#" method="get" class="search-form">
+                            <input type="search" name="search" id="widgetsearch" placeholder="Search...">
+                            <button type="submit"><i class="icon_search"></i></button>
+                        </form>
+                    </div>
+
+                    <div class="single-widget-area">
+                        <div class="widget-title">
+                            <h4>{% get_edit_content request 'blog_page_product_header_main' 'desc' 'BEST SELLER' %}</h4>
                         </div>
 
-                        <div class="single-widget-area">
-                            <!-- Title -->
-                            <div class="widget-title">
-                                <h4>{% get_edit_content request 'blog_page_product_header_main' 'desc' 'BEST SELLER' %}</h4>
-                            </div>
+                        {% get_product_list_latest request %}
 
-                            {% get_product_list_latest request %}
-
-
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
 
 {% endblock %}
 {% endspaceless %}

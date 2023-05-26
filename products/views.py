@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from rest_framework import permissions, viewsets
 
+from .forms import ProductForm
 from .models import Product, ProductCategory
 from .permissions import IsSellerOrAdmin
 from .serializers import ProductCategoryReadSerializer, ProductReadSerializer, ProductWriteSerializer
@@ -44,13 +45,26 @@ class ProductViewSet(viewsets.ModelViewSet):
 class ProductsView(TemplateView):
 
     template_name = 'products.html'
+    form = ProductForm
 
     def post(self, request, *args, **kwargs):
 
-        post_data        = request.POST or None
+        post_data = request.POST or None
 
-        # if request.POST != {}:
-        #     return redirect("/products/")
+        if post_data:
+            add_product = self.form(post_data)
+            product_form_valid = add_product.is_valid()
+            if product_form_valid and 'image' in self.request.FILES:
+                product = add_product.save(commit=False)
+                product.image = self.request.FILES['image']
+                product.save()
+                messages.success(self.request, "{} saved successfully".format(product))
+            else:
+                add_product.add_error('image', 'Please add an image')
+
+        else:
+            add_product = self.form()
+
         products = Product.objects.filter(active=True)
         paginator = Paginator(products, 10)  # Show 25 contacts per page.
         page_number = request.GET.get("page")
@@ -58,7 +72,8 @@ class ProductsView(TemplateView):
         return self.render_to_response({
             'products': products,
             'page_obj': page_obj,
-            'paginator': paginator
+            'paginator': paginator,
+            'add_product': add_product
         })
 
     def get(self, request, *args, **kwargs):
