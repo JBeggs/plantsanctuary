@@ -11,6 +11,17 @@
                     <!-- Shop Page Count -->
                     <div class="shop-page-count">
                         <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
+                            {% if request.user.is_staff %}
+
+                            <p><a href="#1" onclick="add_product();" class="btn alazea-btn mt-15">Add Product</a></p><br />
+                            <script>
+                                function add_product(){
+                                    $('#list_product').toggle();
+                                    $('#add_product').toggle();
+                                }
+                            </script>
+
+                            {% endif %}
                     </div>
                     <!-- Search by Terms -->
                     <div class="search_by_terms">
@@ -27,17 +38,7 @@
                         {% endif %}
 
                         <form action="#" method="post" class="form-inline">
-                            {% if request.user.is_staff %}
 
-                            <p><a href="#1" onclick="add_product();" class="btn alazea-btn mt-15">Add Product</a></p><br />
-                            <script>
-                                function add_product(){
-                                    $('#list_product').toggle();
-                                    $('#add_product').toggle();
-                                }
-                            </script>
-
-                            {% endif %}
                             <select class="custom-select widget-title">
                               <option selected>Short by Popularity</option>
                               <option value="1">Short by Newest</option>
