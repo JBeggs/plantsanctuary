@@ -66,7 +66,7 @@ class ProductsView(TemplateView):
             add_product = self.form()
 
         products = Product.objects.filter(active=True)
-        paginator = Paginator(products, 10)  # Show 25 contacts per page.
+        paginator = Paginator(products, 9)  # Show 25 contacts per page.
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         return self.render_to_response({
