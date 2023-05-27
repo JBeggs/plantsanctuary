@@ -50,7 +50,9 @@ def get_category_search_products():
     for cat in categories:
         number_products = Product.objects.filter(category=cat)
         html += f'<div class="custom-control custom-checkbox d-flex align-items-center mb-2">'
-        html += f'<input type="checkbox" class="custom-control-input" id="id_{slugify(cat.name)}">'
-        html += f'<label class="custom-control-label" for="id_{slugify(cat.name)}">{cat.name}<span class="text-muted">({number_products.count()})</span></label>'
-        html += f'</div>'
+        html += f'<table style="width:100%;"><tr><td style="width:50%;">' \
+                f'<input type="checkbox" class="custom-control-input" id="id_{slugify(cat.name)}">'
+        html += f'<label class="custom-control-label" for="id_{slugify(cat.name)}">{cat.name}' \
+                f'</label></td><td style="width:50%;"><span class="text-muted">( {number_products.count()} )</span></td>'
+        html += f'</tr></table></div>'
     return mark_safe(html)

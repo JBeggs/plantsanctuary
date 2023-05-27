@@ -13,13 +13,13 @@
                         <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
                             {% if request.user.is_staff %}
 
-                            <p><a href="#1" onclick="add_product();" class="btn alazea-btn mt-15">Add Product</a></p><br />
-                            <script>
-                                function add_product(){
-                                    $('#list_product').toggle();
-                                    $('#add_product').toggle();
-                                }
-                            </script>
+                                <p><a href="#1" onclick="add_product();" class="btn alazea-btn mt-15">Add Product</a></p><br />
+                                <script>
+                                    function add_product(){
+                                        $('#list_product').toggle();
+                                        $('#add_product').toggle();
+                                    }
+                                </script>
 
                             {% endif %}
                     </div>
@@ -169,7 +169,7 @@
                                     <!-- Product Info -->
                                     <div class="product-info mt-15 text-center">
                                         <a href="/product/{{ product.name|slugify }}/">
-                                            <p>{{ product.name }}</p>
+                                            <p style="height:60px;">{{ product.name }}</p>
                                         </a>
                                         <p>{{ product.category }}</p>
                                         <p>{{ product.quantity }}</p>
