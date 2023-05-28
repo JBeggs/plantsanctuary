@@ -8,7 +8,7 @@ User = get_user_model()
 @register.simple_tag
 def site_manager(type, *args, **kwargs):
 
-    manager = User.objects.filter(first_name='Wikus').first()
+    manager = User.objects.filter(first_name='info').first()
     if manager:
         if type == 'email':
             return manager.email
