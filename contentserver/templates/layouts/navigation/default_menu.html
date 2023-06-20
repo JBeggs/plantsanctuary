@@ -1,5 +1,9 @@
 {% load security_tags user_cart site_content %}
-<a href="/" class="nav-brand"><h2 style="color:white;">{% get_edit_content request 'home_navigation_header_main' 'desc' 'The Plant Sanctuary' %}</h2></a>
+    <a href="/" class="nav-brand">
+        <h2 style="color:white;">
+        {% get_edit_content request 'home_navigation_header_main' 'desc' 'The Plant Sanctuary' %}
+        </h2>
+    </a>
 
     <div class="classy-navbar-toggler">
         <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -17,13 +21,13 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/about/">About</a></li>
                 <li><a href="/shop/">Shop</a></li>
-                <li><a href="/blog/">Blog</a></li>
+<!--                <li><a href="/blog/">Blog</a></li>-->
                 <li><a href="/contact/">Contact</a></li>
             </ul>
 
-            <div id="searchIcon">
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </div>
+<!--            <div id="searchIcon">-->
+<!--                <i class="fa fa-search" aria-hidden="true"></i>-->
+<!--            </div>-->
 
         </div>
 

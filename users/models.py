@@ -1,6 +1,7 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -83,3 +84,13 @@ class Address(models.Model):
 
     def __str__(self):
         return self.user.get_full_name()
+
+    def html(self):
+        fields = [self.street_address, self.apartment_address, self.city, self.province, self.postal_code, self.country.name]
+
+        html = '<table>'
+        for field in fields:
+            html += f'<tr><td>{field}</td></tr>'
+
+        html += '</table>'
+        return mark_safe(html)

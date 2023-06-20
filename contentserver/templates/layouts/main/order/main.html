@@ -1,0 +1,173 @@
+{% load product_content %}
+{% load crispy_forms_tags %}
+
+<div class="cart-area section-padding-0-100 clearfix">
+    <div class="container">
+
+
+        {% if placed_order %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="cart-table clearfix">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Quantity</th>
+                                    <th></th>
+                                    <th>Price</th>
+                                    <th>TOTAL</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for item in order_items %}
+                            <tbody>
+                                <tr>
+                                    <td class="cart_product_img">
+                                        <a href="#"><img src="/media/{{ item.product.image }}" alt="{{ item.product.desc }}"></a>
+                                        <h5>{{ item.product.name }}</h5>
+                                    </td>
+                                    <td class="qty">
+                                        <div class="quantity">
+                                            {{ item.quantity }}
+                                        </div>
+                                    </td>
+                                    <td class="submit"></td>
+                                    <td class="price"><span>{{ item.product.price }}</span></td>
+                                    <td class="total_price"><span>{{ item.cost }}</span></td>
+                                    <td class="action"></td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <!-- Coupon Discount -->
+                <div class="col-12 col-lg-6">
+    <!--                <div class="coupon-discount mt-70">-->
+    <!--                    <h5>COUPON DISCOUNT</h5>-->
+    <!--                    <p>Coupons can be applied in the cart prior to checkout. Add an eligible item from the booth of the seller that created the coupon code to your cart. Click the green "Apply code" button to add the coupon to your order. The order total will update to indicate the savings specific to the coupon code entered.</p>-->
+    <!--                    <form action="#" method="post">-->
+    <!--                        <input type="text" name="coupon-code" placeholder="Enter your coupon code">-->
+    <!--                        <button type="submit">APPLY COUPON</button>-->
+    <!--                    </form>-->
+    <!--                </div>-->
+                </div>
+
+                <!-- Cart Totals -->
+                <div class="col-12 col-lg-6">
+                    <div class="cart-totals-area mt-70">
+                        <h5 class="title--">Cart Total</h5>
+                        <div class="subtotal d-flex justify-content-between">
+                            <h5>Subtotal</h5>
+                            <h5>{{ order.total_cost }}</h5>
+                        </div>
+                        <div class="shipping d-flex justify-content-between">
+                            <h5>Shipping</h5>
+                            <div class="shipping-address">
+                                <form action="#" method="post">
+                                    {{ address.html }}
+                                </form>
+                            </div>
+                        </div>
+                        <div class="total d-flex justify-content-between">
+                            <h5>Total</h5>
+                            <h5>{{ order.total_cost }}</h5>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="cart-table clearfix">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Quantity</th>
+                                    <th></th>
+                                    <th>Price</th>
+                                    <th>TOTAL</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for item in order_items %}
+                            <form method="POST" action="/cart/update/item/{{ item.id }}/">
+                                {% csrf_token %}
+                            <tbody>
+                                <tr>
+                                    <td class="cart_product_img">
+                                        <a href="#"><img src="/media/{{ item.product.image }}" alt="{{ item.product.desc }}"></a>
+                                        <h5>{{ item.product.name }}</h5>
+                                    </td>
+                                    <td class="qty">
+                                        <div class="quantity">
+                                            <span class="qty-minus" onclick="var effect = document.getElementById('{{ item.id }}_qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                            <input type="number" class="qty-text" id="{{ item.id }}_qty" step="1" min="0" max="" name="quantity" value="{{ item.quantity }}">
+                                            <span class="qty-plus" onclick="var effect = document.getElementById('{{ item.id }}_qty'); var qty = effect.value; if( !isNaN( qty ) && effect.value != {{ item.product.quantity }}) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                        </div>
+                                    </td>
+                                    <td class="submit"><input class="btn alazea-btn mr-30" type="submit" value="Update"/></td>
+                                    <td class="price"><span>{{ item.product.price }}</span></td>
+                                    <td class="total_price"><span>{{ item.cost }}</span></td>
+                                    <td class="action"><a href="/cart/delete/item/{{ item.id }}/"><i class="icon_close"></i></a></td>
+                                </tr>
+                            </tbody>
+                            </form>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <!-- Coupon Discount -->
+                <div class="col-12 col-lg-6">
+    <!--                <div class="coupon-discount mt-70">-->
+    <!--                    <h5>COUPON DISCOUNT</h5>-->
+    <!--                    <p>Coupons can be applied in the cart prior to checkout. Add an eligible item from the booth of the seller that created the coupon code to your cart. Click the green "Apply code" button to add the coupon to your order. The order total will update to indicate the savings specific to the coupon code entered.</p>-->
+    <!--                    <form action="#" method="post">-->
+    <!--                        <input type="text" name="coupon-code" placeholder="Enter your coupon code">-->
+    <!--                        <button type="submit">APPLY COUPON</button>-->
+    <!--                    </form>-->
+    <!--                </div>-->
+                </div>
+
+                <!-- Cart Totals -->
+                <div class="col-12 col-lg-6">
+                    <div class="cart-totals-area mt-70">
+                        <h5 class="title--">Cart Total</h5>
+                        <div class="shipping d-flex justify-content-between">
+                            <h5>Buyer</h5>
+                            <div class="shipping-address">
+                                <b><p>{{ order }} <br />Contact: {{ order.buyer.phone.phone_number }}</b></p>
+                            </div>
+                        </div>
+                        <div class="shipping d-flex justify-content-between">
+                            <h5>Shipping</h5>
+                            <div class="shipping-address">
+                                <form action="#" method="post">
+                                    {{ address.html }}
+                                </form>
+                            </div>
+                        </div>
+                        <div class="total d-flex justify-content-between">
+                            <h5>Total</h5>
+                            <h5>{{ order.total_cost }}</h5>
+                        </div>
+                        <div class="checkout-btn">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

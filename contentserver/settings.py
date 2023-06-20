@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+
+import django
+from django.utils.translation import gettext
+django.utils.translation.ugettext = gettext
 gettext = lambda s: s
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -80,23 +84,9 @@ INSTALLED_APPS = [
     'taggit_autosuggest',
     'meta',
     'sortedm2m',
-    'django_extensions',
     'djangocms_blog',
-    'djangocms_bootstrap4',
-    'djangocms_bootstrap4.contrib.bootstrap4_alerts',
-    'djangocms_bootstrap4.contrib.bootstrap4_badge',
-    'djangocms_bootstrap4.contrib.bootstrap4_card',
-    'djangocms_bootstrap4.contrib.bootstrap4_carousel',
-    'djangocms_bootstrap4.contrib.bootstrap4_collapse',
-    'djangocms_bootstrap4.contrib.bootstrap4_content',
-    'djangocms_bootstrap4.contrib.bootstrap4_grid',
-    'djangocms_bootstrap4.contrib.bootstrap4_jumbotron',
-    'djangocms_bootstrap4.contrib.bootstrap4_link',
-    'djangocms_bootstrap4.contrib.bootstrap4_listgroup',
-    'djangocms_bootstrap4.contrib.bootstrap4_media',
-    'djangocms_bootstrap4.contrib.bootstrap4_picture',
-    'djangocms_bootstrap4.contrib.bootstrap4_tabs',
-    'djangocms_bootstrap4.contrib.bootstrap4_utilities',
+    'django_extensions',
+    'djangocms_bootstrap5',
     'djangocms_file',
     'djangocms_icon',
     'djangocms_link',
@@ -107,7 +97,7 @@ INSTALLED_APPS = [
     'contentserver',
     'rest_framework',
     'crispy_forms',
-    'crispy_bootstrap4',
+    'crispy_bootstrap5',
 ]
 
 
@@ -177,7 +167,6 @@ STATICFILES_DIRS = (
 )
 
 SITE_ID = 1
-
 
 TEMPLATES = [
     {
@@ -279,7 +268,7 @@ LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 
-DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
@@ -389,6 +378,8 @@ BLOG_PERMALINK_URLS = {
     "category": "<str:category>/<str:slug>/",
 }
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 FORM_RENDERER = 'django.forms.renderers.DjangoTemplates'

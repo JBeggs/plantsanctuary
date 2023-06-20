@@ -3,11 +3,15 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q, QuerySet
 from django.middleware.csrf import get_token
 from django.utils.safestring import mark_safe
-from djangocms_blog.models import Post, BlogCategory
-from django.utils.text import slugify
 
-from api.models import Content, BlogContent
+from django.utils.text import slugify
+from djangocms_blog.models import BlogCategory, Post
+
+from api.models import Content, BlogContent, ProductContent
 from django.core.paginator import Paginator
+
+from orders.models import Order
+from products.models import Product
 
 register = template.Library()
 User = get_user_model()
@@ -27,9 +31,9 @@ def get_textarea(name, content):
     return textarea
 
 
-def get_edit_textarea(name, content, form_action, blog_id):
+def get_edit_textarea(name, content, form_action, _id):
 
-    blog_input = f'<input type="hidden" name="blog_id" value="{blog_id}">'
+    blog_input = f'<input type="hidden" name="id" value="{_id}">'
     image_style = 'style="width:10px;height:10px;background-color:white;"'
     edit_image = f'<img src="/media/img/edit.png" {image_style} />'
     edit_html = f"""{content.desc}<div style="" onclick='edit_data_{name}();' class='content_text_{name}'>
@@ -50,9 +54,10 @@ def get_edit_textarea(name, content, form_action, blog_id):
     return mark_safe(edit_html.replace("{{", "{").replace("}}", "}"))
 
 
-def get_edit_image(request, name, default_text, content, form_action, _type, blog_id):
+def get_edit_image(request, name, default_text, content, form_action, _type, _id):
     token = get_token(request)
-    blog_input = f'<input type="hidden" name="blog_id" value="{blog_id}">'
+    blog_input = f'<input type="hidden" name="id" value="{_id}">'
+    content_type = content.__class__.__name__.replace('Content', '').lower()
     image_class = ''
     if 'class' in default_text:
         image_class = default_text.split('class=')[1].split('"')[1]
@@ -60,11 +65,14 @@ def get_edit_image(request, name, default_text, content, form_action, _type, blo
     if _type == 'image':
         if content.image:
             image = f'<img src="/media/{content.image}"  />'
+
     elif _type == 'thumb':
         if content.thumbnail:
             image = f'<img src="/media/{content.thumbnail}"  />'
+
     if not image:
-        image = content.desc
+        image = f'{content.desc}'
+
     edit_image = '<img src="/media/img/edit.png" style="width:10px;height:10px;position:relative;background-color:white;" />'
     edit_html = f"""{image}<div onclick='edit_data_{name}();' class='content_text_{name}'>{edit_image}</div>
     <script>
@@ -84,7 +92,7 @@ def get_edit_image(request, name, default_text, content, form_action, _type, blo
       {get_textarea(name, content)}
       <p>
       <input type="submit" class="btn alazea-btn">
-      <input onclick="window.location='/api/delete/{content.id}/'" type="button" class="btn alazea-btn" value="Delete"></p>
+      <input onclick="window.location='/api/delete_{content_type}/{content.id}/'" type="button" class="btn alazea-btn" value="Delete"></p>
     </form>
     </div>"""
     return mark_safe(edit_html.replace("{{", "{").replace("}}", "}"))
@@ -107,13 +115,18 @@ def get_edit_content(request, name, _type, default_text, *args, **kwargs):
         name = name.strip()
 
         if _type == 'desc':
-            return get_edit_textarea(name, content, 'update_content', blog_id=None)
+            return get_edit_textarea(name, content, 'update_content', _id=None)
         if _type in ['image', 'thumb']:
-            return get_edit_image(request, name, default_text, content, 'update_content', _type, blog_id=None)
+            return get_edit_image(request, name, default_text, content, 'update_content', _type, _id=None)
 
     if not content:
         return ''
-
+    if _type == 'url':
+        if content.image:
+            url = content.image
+        else:
+            url = content.desc
+        return url
     if _type == 'desc':
         return mark_safe(content.desc)
     image = False
@@ -190,17 +203,78 @@ def get_edit_content_blog(request, blog_id, name, _type, default_text, *args, **
     if editor.is_staff and request.user == post.author:
 
         if _type == 'desc':
-            return get_edit_textarea(name, content, 'update_blog_content', blog_id=blog_id)
+            return get_edit_textarea(name, content, 'update_blog_content', _id=blog_id)
         if _type in ['image', 'thumb']:
-            return get_edit_image(request, name, default_text, content, 'update_content', _type, blog_id=blog_id)
+            return get_edit_image(request, name, default_text, content, 'update_content', _type, _id=blog_id)
 
     if not content:
         return ''
 
     if _type == 'desc':
         return mark_safe(content.desc)
+    if _type == 'url':
+        if content.image:
+            url = content.image
+        else:
+            url = content.desc
+        return url
+    image = False
+    if _type == 'image':
+        if content.image:
+            image = f'<img src="/media/{content.image}"  />'
+    elif _type == 'thumb':
+        if content.thumbnail:
+            image = f'<img src="/media/{content.thumbnail}"  />'
+    if not image:
+        image = content.desc
+    return mark_safe(image)
+
+
+@register.simple_tag
+def get_edit_content_product(request, product_id, name, _type, default_text, *args, **kwargs):
+
+    editor = request.user
+    product = Product.objects.get(id=product_id)
+    content = ProductContent.objects.filter(
+        Q(name=name) &
+        Q(product_id=product_id)
+    ).first()
+
+    if not content and request.user.is_staff:
+
+        if request.user.is_staff:
+            content = ProductContent()
+            content.creator = request.user
+            content.name = name
+            content.desc = default_text
+            content.product_id = product.id
+            content.save()
+
+    if editor.is_staff:
+
+        if _type == 'desc':
+            return get_edit_textarea(name, content, 'update_product_content', _id=product_id)
+        if _type in ['image', 'thumb']:
+            return get_edit_image(request, name, default_text, content, 'update_product_content', _type, _id=product_id)
+
+    if not content:
+        return ''
+
+    if _type == 'url':
+        try:
+            url = content.image.url
+        except:
+            url = content.desc
+        if 'src' in url:
+            return url.split('src="')[1].split('"')[0]
+        else:
+            return url
+
+    if _type == 'desc':
+        return mark_safe(content.desc)
 
     image = False
+
     if _type == 'image':
         if content.image:
             image = f'<img src="/media/{content.image}"  />'
@@ -287,3 +361,27 @@ def search_results(request, products, blog_articles,  blog_content):
     search_obj = search_paginator.get_page(search_page_number)
 
     return search_obj
+
+
+@register.simple_tag
+def get_cart_menu(request):
+    placed_order = Order.objects.filter(Q(buyer=request.user) & Q(status='C')).first()
+    if placed_order:
+        return mark_safe('<a href="/cart/">'
+                         '<i class="fa fa-shopping-cart" aria-hidden="true"></i> '
+                         '<span>Order '
+                         f'<span class="cart-quantity">{placed_order.total_items}'
+                         '</span></span>'
+                         '</a>')
+    else:
+        cart = Order.objects.filter(Q(buyer=request.user) & Q(status='P')).first()
+        if cart:
+            total_items = cart.total_items
+        else:
+            total_items = 0
+        return mark_safe('<a href="/cart/">'
+                         '<i class="fa fa-shopping-cart" aria-hidden="true"></i> '
+                         '<span>Cart '
+                         f'<span class="cart-quantity">{total_items}'
+                         '</span></span>'
+                         '</a>')

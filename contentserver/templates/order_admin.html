@@ -7,12 +7,8 @@
 
         <!-- Navigation-->
         {% include 'layouts/navigation/navigation.html' %}
-        {% include 'layouts/main/cart/breadcrumbs.html' %}
+        {% include 'layouts/main/order/breadcrumbs.html' %}
         {% include 'layouts/messages.html' %}
-        {% for order_item in order_items %}
-           {{ order_item.product.name }}<br />
-        {% endfor %}
-        {{ order.total_cost }}
-
+        {% include 'layouts/main/order/main.html' %}
         {% include 'layouts/footer/footer.html' %}
 {% endblock content %}

@@ -3,29 +3,35 @@ from django.contrib.auth import get_user_model
 from django.template.defaultfilters import truncatechars
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from api.models import create_thumbnail
+
 
 User = get_user_model()
 
 
 def category_image_path(instance, filename):
-    return f'product/category/icons/{instance.name}/{filename}'
+    if '/' in filename:
+        filename = filename.split('/')[-1]
+    return f'product/category/icons/{instance.name.replace(" ","")}/{filename}'
 
 
 def product_image_path(instance, filename):
-    return f'product/images/{instance.name}/{filename}'
+    if '/' in filename:
+        filename = filename.split('/')[-1]
+    return f'product/images/{instance.name.replace(" ","")}/{filename}'
 
 
 def product_image_thumb_path(instance, filename):
-    return f'product/thumb/{instance.name}/{filename}'
+    if '/' in filename:
+        filename = filename.split('/')[-1]
+    return f'product/thumb/{instance.name.replace(" ","")}/{filename}'
 
 
 class ProductCategory(models.Model):
     name = models.CharField(_('Category name'), max_length=100)
     icon = models.ImageField(upload_to=category_image_path, blank=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True)
 
     class Meta:
         verbose_name = _('Product Category')
@@ -46,7 +52,7 @@ class Product(models.Model):
         ProductCategory, related_name="product_list", on_delete=models.SET(get_default_product_category))
     name = models.CharField(max_length=200)
     desc = models.TextField(_('Description'), blank=True)
-    image = models.ImageField(upload_to=product_image_path, blank=True)
+    image = models.ImageField(upload_to=product_image_path, blank=True, max_length=300)
     thumbnail = models.ImageField(upload_to=product_image_thumb_path, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.IntegerField(default=1)
@@ -63,6 +69,7 @@ class Product(models.Model):
         return self.name
 
     def save(self):
+        from api.models import create_thumbnail
         create_thumbnail(self.image, self.thumbnail, 200, 200)
         super(Product, self).save()
 

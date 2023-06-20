@@ -9,9 +9,8 @@ from django.shortcuts import render, redirect
 from os.path import exists
 from django.conf import settings
 from django.views.generic import TemplateView
-from djangocms_blog.models import Post
 
-from api.models import Content, BlogContent
+from api.models import Content, BlogContent, ProductContent
 from products.models import *
 from PIL import Image
 
@@ -152,7 +151,7 @@ def update_content(request):
 def update_blog_content(request):
 
     if request.POST:
-        blog_id = request.GET.get('blog_id', None)
+        blog_id = request.GET.get('id', None)
         image = {
             key: value for key, value in request.POST.items()
             if 'textarea_editor_'.lower() in key.lower()
@@ -206,10 +205,89 @@ def update_blog_content(request):
 
 
 @login_required
-def delete(request, content_id):
+def update_product_content(request):
 
-    if id:
-        delete = Content.objects.filter(pk=content_id).first()
+    if request.POST:
+        _id = request.POST.get('id', None)
+        image = {
+            key: value for key, value in request.POST.items()
+            if 'textarea_editor_'.lower() in key.lower()
+        }
+        name = {
+            key: value for key, value in request.POST.items()
+            if 'image_content_editor_'.lower() in key.lower()
+        }
+        desc = ''
+        if bool(image):
+            desc = image[next(iter(image))]
+
+        if bool(name):
+            name = next(iter(name)).replace('image_content_editor_', '')
+        else:
+            name = next(iter(image)).replace('textarea_editor_', '')
+
+        content = ProductContent.objects.filter(
+            Q(name=name) &
+            Q(product_id=_id)
+        ).first()
+
+        for key, in_memory_file in request.FILES.items():
+            content.image = in_memory_file
+
+        content.desc = desc
+        if request.user.is_staff:
+            content.save()
+
+    else:
+
+        _id = request.GET.get('id', None)
+        partial_key = 'textarea_editor_'
+
+        matching_items = {
+            key: value for key, value in request.GET.items()
+            if partial_key.lower() in key.lower()
+        }
+
+        for element, content in matching_items.items():
+            name = element.replace(partial_key, "")
+            element_content = ProductContent.objects.filter(
+                Q(name=name) &
+                Q(product_id=_id)
+            ).first()
+            element_content.desc = content
+            if request.user == element_content.creator:
+                element_content.save()
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def delete_content(request, _id):
+
+    if _id:
+        delete = Content.objects.filter(pk=_id).first()
+        if request.user == delete.author:
+            delete.delete()
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def delete_product(request, _id):
+
+    if _id:
+        delete = ProductContent.objects.filter(pk=_id).first()
+        if request.user == delete.creator:
+            delete.delete()
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def delete_blog(request, _id):
+
+    if _id:
+        delete = BlogContent.objects.filter(pk=_id).first()
         if request.user == delete.author:
             delete.delete()
 

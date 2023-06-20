@@ -8,8 +8,8 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
 from api.views import SearchView
-from orders.views import OrderFormView, OrdersView
-from products.views import ProductsView
+from orders.views import OrderFormView, OrdersView, CartView, delete_cart_item, update_cart_item, place_order, OrderView
+from products.views import ProductsView, ProductView
 from users.views import UserView
 
 admin.autodiscover()
@@ -28,9 +28,15 @@ urlpatterns = [
 
 urlpatterns += (
     path('search/', SearchView.as_view(), name="search"),
-    path('shop/', ProductsView.as_view(), name="products"),
+    path('shop/', ProductsView.as_view(), name="shop"),
+    path('shop/item/<slug>/', ProductView.as_view(), name="product-view"),
+    path('cart/', CartView.as_view(), name="cart"),
+    path('cart/delete/item/<item_id>/', delete_cart_item, name="delete_cart_item"),
+    path('cart/update/item/<item_id>/', update_cart_item, name="update_cart_item"),
     path('order/', OrderFormView.as_view(), name="order"),
+    path('order/place/', place_order, name="place_order"),
     path('orders/', OrdersView.as_view(), name="orders"),
+    path('view/order/<order_id>/', OrderView.as_view(), name="order_view"),
     path('user/', UserView.as_view(), name="user"),
     path('accounts/', include('allauth.urls')),
     path("admin/", admin.site.urls),

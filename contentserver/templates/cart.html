@@ -1,18 +1,17 @@
-{% extends "orders_base.html" %}
+{% extends "cart_base.html" %}
 {% load cms_tags %}
 
-{% block title %}title{% endblock title %}
+{% block title %}Plant Sanctuary - Products{% endblock title %}
 
 {% block content %}
 
         <!-- Navigation-->
         {% include 'layouts/navigation/navigation.html' %}
+
         {% include 'layouts/main/cart/breadcrumbs.html' %}
         {% include 'layouts/messages.html' %}
-        {% for order_item in order_items %}
-           {{ order_item.product.name }}<br />
-        {% endfor %}
-        {{ order.total_cost }}
+        {% include 'layouts/main/cart/main.html' %}
 
         {% include 'layouts/footer/footer.html' %}
 {% endblock content %}
+
