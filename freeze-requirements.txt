@@ -19,7 +19,7 @@ defusedxml==0.7.1
 Deprecated==1.2.13
 dj-database-url==2.0.0
 dj-rest-auth==3.0.0
-Django==4.2.2
+Django==4.1
 django-admin-sortable2==2.1.8
 django-allauth==0.54.0
 django-angular==2.3

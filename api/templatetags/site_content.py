@@ -5,7 +5,7 @@ from django.middleware.csrf import get_token
 from django.utils.safestring import mark_safe
 
 from django.utils.text import slugify
-from djangocms_blog.models import BlogCategory, Post
+#from djangocms_blog.models import BlogCategory, Post
 
 from api.models import Content, BlogContent, ProductContent
 from django.core.paginator import Paginator

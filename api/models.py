@@ -3,7 +3,7 @@ from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from djangocms_blog.models import Post
+#from djangocms_blog.models import Post
 
 from products.models import Product
 
@@ -107,8 +107,8 @@ class BlogContent(models.Model):
 
     author = models.ForeignKey(
         User, related_name="author", on_delete=models.CASCADE)
-    blog = models.ForeignKey(
-        Post, related_name="blog", on_delete=models.CASCADE)
+    # blog = models.ForeignKey(
+    #     Post, related_name="blog", on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     desc = models.TextField(_('Description'), blank=True)
     image = models.ImageField(upload_to=content_image_path, blank=True, max_length=500)
